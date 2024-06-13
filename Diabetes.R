@@ -36,6 +36,7 @@ attach(data) # Ri-attacca il dataframe aggiornato, senza valori nulli
 mean(DIABETE4)
 median(DIABETE4)
 var(DIABETE4)
+summary(DIABETE4) # Ci sono solo 2 valori possibili: 1 e 2
 
 boxplot(DIABETE4, main = "DIABETE4", xlab = "DIABETE4")
 
@@ -48,6 +49,7 @@ ggplot(data, aes(x = DIABETE4)) + geom_bar() +
 mean(X_RFHYPE6)
 median(X_RFHYPE6)
 var(X_RFHYPE6)
+summary(X_RFHYPE6)
 
 boxplot(X_RFHYPE6, main = "X_RFHYPE6", xlab = "X_RFHYPE6")
 
@@ -297,8 +299,36 @@ ggplot(data, aes(x = INCOME3)) + geom_bar() +
        y = "Frequenza")
 
 
+#EDA: Correlazione tra variabili numeriche (da capire se rilevante)
+correlation_matrix <- cor(data, use = "complete.obs")
+library(corrplot)
+if (!require(corrplot)) {
+  install.packages("corrplot")
+}
+corrplot(correlation_matrix, method = "circle")
+
+# Provvisorio: grafico di che fa vedere una variabile in funzione di un'altra (qui Sesso)
+ggplot(data, aes(x = X_AGEG5YR, fill = factor(SEXVAR))) + 
+  geom_bar(position = "dodge") +
+  labs(title = "Distribuzione di X_AGEG5YR per SEXVAR",
+       x = "X_AGEG5YR",
+       y = "Frequenza")
 
 
+#Provvisiorio:  forse ha senso grafico del diabete in funzione di età e sesso (?)
+# Prevalenza del diabete per fasce di età
+ggplot(data, aes(x = X_AGEG5YR, fill = factor(DIABETE4))) + 
+  geom_bar(position = "fill") +
+  labs(title = "Prevalenza del diabete per fasce di età",
+       x = "X_AGEG5YR",
+       y = "Proporzione")
+
+#Prevalenza del diabete per fasce di età 
+ggplot(data, aes(x = X_AGEG5YR, fill = factor(DIABETE4))) + 
+  geom_bar(position = "dodge") +
+  labs(title = "Prevalenza del diabete per fasce di età",
+       x = "X_AGEG5YR",
+       y = "Frequenza")
 
 
 

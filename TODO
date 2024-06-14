@@ -16,3 +16,6 @@ Tra le variabili dei fumatori, X_SMOKER3 è quella che ci piace di più 1 -> 1, 
 Bias: ci sarebbe anche DRNKWK1 è il n° dei drink consumati alla settimana calcolato a partire dal n° di drink bevuti in settimana/mese --> ma noi non abbiamo scelto di usare i valori numerici dei drink, preferendo la classificazione Heavy Drinker/Drinker
 
 
+N.B. Per ogni variabile capire se sono categoriche/numeriche/ordinali --> così da assegnare corrispettivo test.
+N.B. Prima di tabella di contingenza fare TEST DI SHAPIRO  --> fitrare colonna "0" per cui non abbiamo valori rilevanti
+N.B. Tabella di contingenza fra Diabete/Non Diabete e tutto il resto (magari income, sesso etc) --> è un test parametrico. Capire su cosa fare ipotesi nulla.

@@ -1,0 +1,6 @@
+Vedi se tenere "summary()" per tutte le variabili (messo solo per le prime due)
+Vedi se il terzultimo grafico che unisce due variabili ha senso, e con quali può aver senso (lì fatto per il Sesso)
+Vedi se ultimi due grafici del diabete in funzione di Etaà e Sesso hanno senso, o qualcosa di simile
+Rinominare alcune colonne per maggiore chiarezza (Paolo Speziali lo fa se vuoi un riferimento)
+Aggiungere titoli/label più esplicative per i Box & Whiskers plot
+C'è un valore aggregante? 

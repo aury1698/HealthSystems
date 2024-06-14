@@ -50,10 +50,10 @@ colnames(new_data) # visualizza i nomi delle colonne
 # Accorpa i valori 1 e 2 della colonna "Diabetes" in un unico valore 1
 new_data <- new_data %>%
   mutate(Diabetes = ifelse(Diabetes %in% c(1, 2), 1, Diabetes))
-
 # Verifica i cambiamenti
 table(new_data$Diabetes) # Per vedere la distribuzione dei valori nella colonna Diabetes
 head(new_data) # Visualizza le prime righe del dataframe modificato
+
 
 # Accorpa i valori 7 e 9 della colonna "Diabetes" in un unico valore 7
 new_data <- new_data %>%
@@ -66,25 +66,42 @@ head(new_data) # Visualizza le prime righe del dataframe modificato
 # Accorpa i valori 7 e 9 della colonna "Diabetes" in un unico valore 7
 new_data <- new_data %>%
   mutate(Diabetes = ifelse(Diabetes %in% c(7, NA), 7, Diabetes))
-
 # Verifica i cambiamenti
 table(new_data$Diabetes) # Per vedere la distribuzione dei valori nella colonna Diabetes
 head(new_data) # Visualizza le prime righe del dataframe modificato
 
-#Ora le colonne sono 1, 3, 4, 7
+#Ora le colonne sono 1, 3, 4, 7 --> le faremo diventare 0 (al posto di 7), 1, 2, 3
+#Mappa 7 in 0
+new_data <- new_data %>%
+  mutate(Diabetes = ifelse(Diabetes %in% c(7), 0, Diabetes))
+# Verifica i cambiamenti  
+table(new_data$Diabetes) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
 
+#Mappa 3 in 2
+new_data <- new_data %>%
+  mutate(Diabetes = ifelse(Diabetes %in% c(3), 2, Diabetes))
+# Verifica i cambiamenti
+table(new_data$Diabetes) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+#Mappa 4 in 3
+new_data <- new_data %>%
+  mutate(Diabetes = ifelse(Diabetes %in% c(4), 3, Diabetes))
+# Verifica i cambiamenti
+table(new_data$Diabetes) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
 
 
 ####Aggiustiamo la colonna TOLDHIGHCOLERESTEROL
-
-#ToldHighColesterol
+#Mappa 9 in 7
 new_data <- new_data %>%
   mutate(ToldHighColesterol = ifelse(ToldHighColesterol %in% c(7, 9), 7, ToldHighColesterol))
 # Verifica i cambiamenti
 table(new_data$ToldHighColesterol) # Per vedere la distribuzione dei valori nella colonna Diabetes
 head(new_data) # Visualizza le prime righe del dataframe modificato
 
-#ToldHighColesterol
+#Mappa NA in 7
 new_data <- new_data %>%
   mutate(ToldHighColesterol = ifelse(ToldHighColesterol %in% c(7, NA), 7, ToldHighColesterol))
 # Verifica i cambiamenti
@@ -92,6 +109,13 @@ table(new_data$ToldHighColesterol) # Per vedere la distribuzione dei valori nell
 head(new_data) # Visualizza le prime righe del dataframe modificato
 
 #Ora le colonne sono 1, 2, 7 (Yes, No, Not Sure/Don't Know/Refused)
+#Di nuovo, la colonna 7 diventerà 0
+new_data <- new_data %>%
+  mutate(ToldHighColesterol = ifelse(ToldHighColesterol %in% c(7), 0, ToldHighColesterol))
+# Verifica i cambiamenti
+table(new_data$ToldHighColesterol) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
 
 ######Aggiustiamo la colonna CHOLESTEROLCHECK
 new_data <- new_data %>%
@@ -118,7 +142,6 @@ head(new_data) # Visualizza le prime righe del dataframe modificato
 ######Aggiustiamo la colonna STROKE
 new_data <- new_data %>%
   mutate(Stroke = ifelse(Stroke %in% c(7, 9), 7, Stroke))
-
 table(new_data$Stroke) # Per vedere la distribuzione dei valori nella colonna Diabetes
 head(new_data) # Visualizza le prime righe del dataframe modificato
 
@@ -129,49 +152,61 @@ table(new_data$Stroke) # Per vedere la distribuzione dei valori nella colonna Di
 head(new_data) # Visualizza le prime righe del dataframe modificato
 
 #Ora le colonne sono 1, 3, 7 (Yes, No, Not Sure/Don't Know/Refused)
+#Di nuovo, la colonna 7 diventerà 0
+new_data <- new_data %>%
+  mutate(Stroke = ifelse(Stroke %in% c(7), 0, Stroke))
+table(new_data$Stroke) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
 
 
 ######Aggiustiamo la colonna MEDICAL COST
 new_data <- new_data %>%
   mutate(MedicalCost = ifelse(MedicalCost %in% c(7, 9), 7, MedicalCost))
-
 table(new_data$MedicalCost) # Per vedere la distribuzione dei valori nella colonna Diabetes
 head(new_data) # Visualizza le prime righe del dataframe modificato
 
 new_data <- new_data %>%
   mutate(MedicalCost = ifelse(MedicalCost %in% c(7, NA), 7, MedicalCost))
-
 table(new_data$MedicalCost) # Per vedere la distribuzione dei valori nella colonna Diabetes
 head(new_data) # Visualizza le prime righe del dataframe modificato
 
 #Ora le colonne sono 1, 2, 7 (Yes, No, Not Sure/Don't Know/Refused)
+#Di nuovo, la colonna 7 diventerà 0
+new_data <- new_data %>%
+  mutate(MedicalCost = ifelse(MedicalCost %in% c(7), 0, MedicalCost))
+table(new_data$MedicalCost) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
 
 
 ######Aggiustiamo la colonna GENERALHEALTH
 new_data <- new_data %>%
   mutate(GeneralHealth = ifelse(GeneralHealth %in% c(7, 9), 7, GeneralHealth))
-
 table(new_data$GeneralHealth) # Per vedere la distribuzione dei valori nella colonna Diabetes
 head(new_data) # Visualizza le prime righe del dataframe modificato
 
 new_data <- new_data %>%
   mutate(GeneralHealth = ifelse(GeneralHealth %in% c(7, NA), 7, GeneralHealth))
-
 table(new_data$GeneralHealth) # Per vedere la distribuzione dei valori nella colonna Diabetes
 head(new_data) # Visualizza le prime righe del dataframe modificato
 
 #Ora le colonne sono 1, 2, 3, 4, 5, 7 (Excellent, Very Good, Good, Fair, Poor, Not Sure/Don't Know/Refused/Missing)
+#Di nuovo, la colonna 7 diventerà 0
+new_data <- new_data %>%
+  mutate(GeneralHealth = ifelse(GeneralHealth %in% c(7), 0, GeneralHealth))
+table(new_data$GeneralHealth) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+
 
 ######Aggiustiamo la colonna MENTALHEALTH
 new_data <- new_data %>%
   mutate(MentalHealth = ifelse(MentalHealth %in% c(77, 99), 77, MentalHealth))
-
 table(new_data$MentalHealth) # Per vedere la distribuzione dei valori nella colonna Diabetes
 head(new_data) # Visualizza le prime righe del dataframe modificato
 
 new_data <- new_data %>%
   mutate(MentalHealth = ifelse(MentalHealth %in% c(77, NA), 77, MentalHealth))
-
 table(new_data$MentalHealth) # Per vedere la distribuzione dei valori nella colonna Diabetes
 head(new_data) # Visualizza le prime righe del dataframe modificato
 
@@ -182,44 +217,56 @@ new_data <- new_data %>%
 table(new_data$MentalHealth) # Per vedere la distribuzione dei valori nella colonna Diabetes
 head(new_data) # Visualizza le prime righe del dataframe modificato
 
-#ORa le colonne sono da 0 a 30, e la 77 (Not Sure/Don't Know/Refused/Missing)
+#Ora le colonne sono da 0 a 30, e la 77 (Not Sure/Don't Know/Refused/Missing)
+#N.B.  La 77 diventerà 31 dato che i giorni considerati sono 30!
+new_data <- new_data %>%
+  mutate(MentalHealth = ifelse(MentalHealth %in% c(77), 31, MentalHealth))
+table(new_data$MentalHealth) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
 
 ######Aggiustiamo la colonna PHYSICALHEALTH
 new_data <- new_data %>%
   mutate(PhysicalHealth = ifelse(PhysicalHealth %in% c(77, 99), 77, PhysicalHealth))
-
 table(new_data$PhysicalHealth) # Per vedere la distribuzione dei valori nella colonna Diabetes
 head(new_data) # Visualizza le prime righe del dataframe modificato
 
 new_data <- new_data %>%
   mutate(PhysicalHealth = ifelse(PhysicalHealth %in% c(77, NA), 77, PhysicalHealth))
-
 table(new_data$PhysicalHealth) # Per vedere la distribuzione dei valori nella colonna Diabetes
 head(new_data) # Visualizza le prime righe del dataframe modificato
 
 #mappo 88 in 0
 new_data <- new_data %>%
   mutate(PhysicalHealth = ifelse(PhysicalHealth %in% c(88), 0, PhysicalHealth))
-
 table(new_data$PhysicalHealth) # Per vedere la distribuzione dei valori nella colonna Diabetes
 head(new_data) # Visualizza le prime righe del dataframe modificato
 
-#ORa le colonne sono da 0 a 30, e la 77 (Not Sure/Don't Know/Refused/Missing)
-ù
+#Ora le colonne sono da 0 a 30, e la 77 (Not Sure/Don't Know/Refused/Missing)
+#N.B. Anche qui la 77 diventerà 31 dato che i giorni considerati sono 30!
+new_data <- new_data %>%
+  mutate(PhysicalHealth = ifelse(PhysicalHealth %in% c(77), 31, PhysicalHealth))
+table(new_data$PhysicalHealth) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
 
 ######Aggiustiamo la colonna WALKINGDIFFICULTY
 new_data <- new_data %>%
   mutate(WalkingDifficulty = ifelse(WalkingDifficulty %in% c(7, 9), 7, WalkingDifficulty))
-
 table(new_data$WalkingDifficulty) # Per vedere la distribuzione dei valori nella colonna Diabetes
 head(new_data) # Visualizza le prime righe del dataframe modificato
 
 new_data <- new_data %>%
   mutate(WalkingDifficulty = ifelse(WalkingDifficulty %in% c(7, NA), 7, WalkingDifficulty))
-
 table(new_data$WalkingDifficulty) # Per vedere la distribuzione dei valori nella colonna Diabetes
 head(new_data) # Visualizza le prime righe del dataframe modificato
 #Ora le colonne sono 1, 2, 7 (Yes, No, Not Sure/Don't Know/Refused)
+#Di nuovo la 7 diventerà 0
+
+new_data <- new_data %>%
+  mutate(WalkingDifficulty = ifelse(WalkingDifficulty %in% c(7), 0, WalkingDifficulty))
+table(new_data$WalkingDifficulty) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
 
 
 write.csv(new_data, file = "./data/diabetes_dataset_temp.csv")

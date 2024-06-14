@@ -4,3 +4,12 @@ Vedi se ultimi due grafici del diabete in funzione di Etaà e Sesso hanno senso,
 Rinominare alcune colonne per maggiore chiarezza (Paolo Speziali lo fa se vuoi un riferimento)
 Aggiungere titoli/label più esplicative per i Box & Whiskers plot
 C'è un valore aggregante? 
+
+Boxplot per variabili categorie non serve a niente
+
+Diabete4 mappare in 1,2 -> 1 , 3 -> 2, 4 -> 3, 7, 9 , BLANK -> 4
+
+_RFHYPE6 mappare in 1 -> 1, 2->2 , 9->3
+
+Tra le variabili dei fumatori, X_SMOKER3 è quella che ci piace di più 1 -> 1, 2->2 , 3->3, 4->4 ,9->5
+

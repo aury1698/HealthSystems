@@ -33,10 +33,13 @@ attach(data) # Ri-attacca il dataframe aggiornato, senza valori nulli
 #EDA per le variabili del dataset
 
 # EDA: DIABETE4
+# Ever told) (you had) diabetes? (If  ́Yes ́ and respondent is female, ask  ́Was this only when your 
+#were pregnant? ́. If Respondent says pre-diabetes or borderline diabetes, use response code 4
+
 mean(DIABETE4)
 median(DIABETE4)
 var(DIABETE4)
-summary(DIABETE4) # Ci sono solo 2 valori possibili: 1 e 2
+summary(DIABETE4)
 
 boxplot(DIABETE4, main = "DIABETE4", xlab = "DIABETE4")
 
@@ -45,7 +48,9 @@ ggplot(data, aes(x = DIABETE4)) + geom_bar() +
        x = "DIABETE4",
        y = "Frequenza")
 
-# EDA: X_RFHYPE6
+# EDA: X_RFHYPE6 
+# Adults who have been told they have high blood pressure by a doctor, nurse, or other health professional
+
 mean(X_RFHYPE6)
 median(X_RFHYPE6)
 var(X_RFHYPE6)
@@ -59,6 +64,8 @@ ggplot(data, aes(x = X_RFHYPE6)) + geom_bar() +
        y = "Frequenza")
 
 # EDA: TOLDHI3
+# Have you ever been told by a doctor, nurse or other health professional that your cholesterol is high
+
 mean(TOLDHI3)
 median(TOLDHI3)
 var(TOLDHI3)
@@ -71,6 +78,8 @@ ggplot(data, aes(x = TOLDHI3)) + geom_bar() +
        y = "Frequenza")
 
 # EDA: X_CHOLCH3
+# About how long has it been since you last had your cholesterol checked
+
 mean(X_CHOLCH3)
 median(X_CHOLCH3)
 var(X_CHOLCH3)
@@ -83,6 +92,8 @@ ggplot(data, aes(x = X_CHOLCH3)) + geom_bar() +
        y = "Frequenza")
 
 # EDA: X_BMI5
+# Body Mass Index
+
 mean(X_BMI5)
 median(X_BMI5)
 var(X_BMI5)
@@ -95,6 +106,8 @@ ggplot(data, aes(x = X_BMI5)) + geom_bar() +
        y = "Frequenza")
 
 # EDA: SMOKE100
+# Four-level smoker status: Everyday smoker, Someday smoker, Former smoker, Non-smoker
+
 mean(SMOKE100)
 median(SMOKE100)
 var(SMOKE100)
@@ -107,6 +120,8 @@ ggplot(data, aes(x = SMOKE100)) + geom_bar() +
        y = "Frequenza")
 
 # EDA: X_MICHD
+# Respondents that have ever reported having coronary heart disease (CHD) or myocardial infarction (MI)
+
 mean(X_MICHD)
 median(X_MICHD)
 var(X_MICHD)
@@ -119,6 +134,8 @@ ggplot(data, aes(x = X_MICHD)) + geom_bar() +
        y = "Frequenza")
 
 # EDA: CVDSTRK3
+# Ever told you had a stroke.
+
 mean(CVDSTRK3)
 median(CVDSTRK3)
 var(CVDSTRK3)
@@ -131,6 +148,8 @@ ggplot(data, aes(x = CVDSTRK3)) + geom_bar() +
        y = "Frequenza")
 
 # EDA: X_TOTINDA
+# Adults who reported doing physical activity or exercise during the past 30 days other than their regular job
+
 mean(X_TOTINDA)
 median(X_TOTINDA)
 var(X_TOTINDA)
@@ -143,6 +162,8 @@ ggplot(data, aes(x = X_TOTINDA)) + geom_bar() +
        y = "Frequenza")
 
 # EDA: X_FRTLT1A
+# Consume Fruit 1 or more times per day
+
 mean(X_FRTLT1A)
 median(X_FRTLT1A)
 var(X_FRTLT1A)
@@ -155,6 +176,8 @@ ggplot(data, aes(x = X_FRTLT1A)) + geom_bar() +
        y = "Frequenza")
 
 # EDA: X_VEGLT1A
+# Consume Vegetables 1 or more times per day
+
 mean(X_VEGLT1A)
 median(X_VEGLT1A)
 var(X_VEGLT1A)
@@ -167,6 +190,8 @@ ggplot(data, aes(x = X_VEGLT1A)) + geom_bar() +
        y = "Frequenza")
 
 # EDA: X_RFDRHV7
+# Heavy drinkers (adult men having more than 14 drinks per week and adult women having more than 7 drinks per week)
+
 mean(X_RFDRHV7)
 median(X_RFDRHV7)
 var(X_RFDRHV7)
@@ -179,6 +204,8 @@ ggplot(data, aes(x = X_RFDRHV7)) + geom_bar() +
        y = "Frequenza")
 
 # EDA: X_HLTHPLN
+# Adults who had some form of health insurance
+
 mean(X_HLTHPLN)
 median(X_HLTHPLN)
 var(X_HLTHPLN)
@@ -191,6 +218,8 @@ ggplot(data, aes(x = X_HLTHPLN)) + geom_bar() +
        y = "Frequenza")
 
 # EDA: MEDCOST1
+# Was there a time in the past 12 months when you needed to see a doctor but could not because you could not afford it?
+
 mean(MEDCOST1)
 median(MEDCOST1)
 var(MEDCOST1)
@@ -203,6 +232,8 @@ ggplot(data, aes(x = MEDCOST1)) + geom_bar() +
        y = "Frequenza")
 
 # EDA: GENHLTH
+# Would you say that in general your health is
+
 mean(GENHLTH)
 median(GENHLTH)
 var(GENHLTH)
@@ -215,6 +246,8 @@ ggplot(data, aes(x = GENHLTH)) + geom_bar() +
        y = "Frequenza")
 
 # EDA: MENTHLTH
+# Now thinking about your mental health, which includes stress, depression, and problems with emotions, for how many days during the past 30 days was your mental health not good
+
 mean(MENTHLTH)
 median(MENTHLTH)
 var(MENTHLTH)
@@ -227,6 +260,8 @@ ggplot(data, aes(x = MENTHLTH)) + geom_bar() +
        y = "Frequenza")
 
 # EDA: PHYSHLTH
+# Now thinking about your physical health, which includes physical illness and injury, for how many days during the past 30 days was your physical health not good
+
 mean(PHYSHLTH)
 median(PHYSHLTH)
 var(PHYSHLTH)
@@ -239,6 +274,8 @@ ggplot(data, aes(x = PHYSHLTH)) + geom_bar() +
        y = "Frequenza")
 
 # EDA: DIFFWALK
+# Do you have serious difficulty walking or climbing stairs?
+
 mean(DIFFWALK)
 median(DIFFWALK)
 var(DIFFWALK)
@@ -251,6 +288,8 @@ ggplot(data, aes(x = DIFFWALK)) + geom_bar() +
        y = "Frequenza")
 
 # EDA: SEXVAR
+# Sex of Respondent
+
 mean(SEXVAR)
 median(SEXVAR)
 var(SEXVAR)
@@ -263,6 +302,8 @@ ggplot(data, aes(x = SEXVAR)) + geom_bar() +
        y = "Frequenza")
 
 # EDA: X_AGEG5YR
+# Fourteen-level age category
+
 mean(X_AGEG5YR)
 median(X_AGEG5YR)
 var(X_AGEG5YR)
@@ -275,6 +316,8 @@ ggplot(data, aes(x = X_AGEG5YR)) + geom_bar() +
        y = "Frequenza")
 
 # EDA: EDUCA
+# What is the highest grade or year of school you completed
+
 mean(EDUCA)
 median(EDUCA)
 var(EDUCA)
@@ -287,6 +330,8 @@ ggplot(data, aes(x = EDUCA)) + geom_bar() +
        y = "Frequenza")
 
 # EDA: INCOME3
+# Is your annual household income from all sources
+
 mean(INCOME3)
 median(INCOME3)
 var(INCOME3)

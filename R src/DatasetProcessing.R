@@ -151,12 +151,55 @@ new_data <- new_data %>%
 table(new_data$CholesterolCheck) # Per vedere la distribuzione dei valori nella colonna Diabetes
 head(new_data) # Visualizza le prime righe del dataframe modificato
 
+#Invertiamo l'ordine per far sì che il caso peggiore, cioè "never", sia ultimo:  1-->8; 2-->1; 3-->2;  4--> 3 etc 8-->7, facendo ATTENZIONE a non sovrascrivere i valori già modificati
+new_data <- new_data %>%
+  mutate(CholesterolCheck = ifelse(CholesterolCheck %in% c(1), 8, CholesterolCheck))
+table(new_data$CholesterolCheck) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+new_data <- new_data %>%
+  mutate(CholesterolCheck = ifelse(CholesterolCheck %in% c(2), 1, CholesterolCheck))
+table(new_data$CholesterolCheck) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+new_data <- new_data %>%
+  mutate(CholesterolCheck = ifelse(CholesterolCheck %in% c(3), 2, CholesterolCheck))
+table(new_data$CholesterolCheck) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+new_data <- new_data %>%
+  mutate(CholesterolCheck = ifelse(CholesterolCheck %in% c(4), 3, CholesterolCheck))
+table(new_data$CholesterolCheck) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+new_data <- new_data %>%
+  mutate(CholesterolCheck = ifelse(CholesterolCheck %in% c(5), 4, CholesterolCheck))
+table(new_data$CholesterolCheck) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+new_data <- new_data %>%
+  mutate(CholesterolCheck = ifelse(CholesterolCheck %in% c(6), 5, CholesterolCheck))
+table(new_data$CholesterolCheck) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+new_data <- new_data %>%
+  mutate(CholesterolCheck = ifelse(CholesterolCheck %in% c(7), 6, CholesterolCheck))
+table(new_data$CholesterolCheck) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+new_data <- new_data %>%
+  mutate(CholesterolCheck = ifelse(CholesterolCheck %in% c(8), 7, CholesterolCheck))
+table(new_data$CholesterolCheck) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+#Ora le colonne sono Don't know/Refused, anytime < one year, 1 year but < 2 years, 2 years but < 3 years, 3 years but < 4 years, 4 years but < 5 years, 5 years or more, Never
+
 
 ######Aggiustiamo la colonna BMI
 new_data <- new_data %>%
   mutate(BMI = ifelse(BMI %in% c(0, NA), 0, BMI))
 
-table(new_data$BMI) # Per vedere la distribuzione dei valori nella colonna Diabetes
+table(new_data$BMI) # Per vedere la distribuzione dei valori 
 head(new_data) # Visualizza le prime righe del dataframe modificato
 
 
@@ -164,15 +207,30 @@ head(new_data) # Visualizza le prime righe del dataframe modificato
 #Mappo 9 in 0
 new_data <- new_data %>%
   mutate(Smoker = ifelse(Smoker %in% c(0, 9), 0, Smoker))
-table(new_data$Smoker) # Per vedere la distribuzione dei valori nella colonna Diabetes
+table(new_data$Smoker) # Per vedere la distribuzione dei valori 
 head(new_data) # Visualizza le prime righe del dataframe modificato
+
+#Ora invertiamo l' ordine, perché anziché avere everyday, someday, former, never avremo: Everyday-->4; Someday-->3; Former-->2; Never -->1. Attenzione a non sovrascrivere i valori, perché rendendo Everyday 1, poi come faccio a mappare il vecchio "1" in 4?
+# Usiamo un valore intermedio (e.g., 7 perché 0 già usato) per evitare overwriting
+new_data <- new_data %>% mutate(Smoker = ifelse(Smoker == 1, 7, Smoker))
+new_data <- new_data %>% mutate(Smoker = ifelse(Smoker == 4, 1, Smoker))
+new_data <- new_data %>% mutate(Smoker = ifelse(Smoker == 7, 4, Smoker))
+
+# E ora scambiamo 2 e 3
+new_data <- new_data %>% mutate(Smoker = ifelse(Smoker == 2, 7, Smoker))
+new_data <- new_data %>% mutate(Smoker = ifelse(Smoker == 3, 2, Smoker))
+new_data <- new_data %>% mutate(Smoker = ifelse(Smoker == 7, 3, Smoker))
+
+table(new_data$Smoker) # Per vedere la distribuzione dei valori
+#Ora le colonne sono 1, 2, 3, 4 (Never, Former, Someday, Everyday)
+
 
 
 ######Aggiustiamo la colonna HEARTDISEASE
 new_data <- new_data %>%
   mutate(HeartDisease = ifelse(HeartDisease %in% c(0, NA), 0, HeartDisease))
 
-table(new_data$HeartDisease) # Per vedere la distribuzione dei valori nella colonna Diabetes
+table(new_data$HeartDisease) # Per vedere la distribuzione dei valori 
 head(new_data) # Visualizza le prime righe del dataframe modificato
 
 ######Aggiustiamo la colonna STROKE
@@ -350,12 +408,68 @@ new_data <- new_data %>%
 table(new_data$Education) # Per vedere la distribuzione dei valori nella colonna Diabetes
 head(new_data) # Visualizza le prime righe del dataframe modificato
 
+#Anche qui invertiamo l' ordine delle categorie (No high school grad sarà ultimo, il worst case). Attenzione anche qui a non sovrascrivere i valori già modificati. Usare un valore intermedio (e.g., 7 perché 0 è usato!) per evitare overwriting
+#Quindi 1 --> 4; 2 --> 3; 3 --> 2; 4 --> 1 ma usando il valore intermedio
+new_data <- new_data %>% mutate(Education = ifelse(Education == 1, 7, Education))
+new_data <- new_data %>% mutate(Education = ifelse(Education == 4, 1, Education))
+new_data <- new_data %>% mutate(Education = ifelse(Education == 7, 4, Education))
+
+new_data <- new_data %>% mutate(Education = ifelse(Education == 2, 7, Education))
+new_data <- new_data %>% mutate(Education = ifelse(Education == 3, 2, Education))
+new_data <- new_data %>% mutate(Education = ifelse(Education == 7, 3, Education))
+
+table(new_data$Education) # Per vedere la distribuzione dei valori 
+
+
+
 ######Aggiustiamo la colonna INCOME
 #Mappo 9 in 0
 new_data <- new_data %>%
   mutate(Income = ifelse(Income %in% c(0, 9), 0, Income))
 table(new_data$Income) # Per vedere la distribuzione dei valori nella colonna Diabetes
 head(new_data) # Visualizza le prime righe del dataframe modificato
+
+#Anche qui invertiremo, mettendo quelli con reddito minore (<15K) alla fine
+#Usiamo sempre un valore intermedio (e.g., 11 perché 7 è usato) per evitare overwriting
+#Quindi, usando 11 come segnaposto per gli swap, avremo 7--> 1; 6--> 2; 5--> 3; 4--> 4; 3--> 5; 2--> 6; 1--> 7
+new_data <- new_data %>% mutate(Income = ifelse(Income == 1, 11, Income))
+new_data <- new_data %>% mutate(Income = ifelse(Income == 7, 1, Income))
+new_data <- new_data %>% mutate(Income = ifelse(Income == 11, 7, Income))
+table(new_data$Income) # Per vedere la distribuzione dei valori 
+
+new_data <- new_data %>% mutate(Income = ifelse(Income == 2, 11, Income))
+new_data <- new_data %>% mutate(Income = ifelse(Income == 6, 2, Income))
+new_data <- new_data %>% mutate(Income = ifelse(Income == 11, 6, Income))
+table(new_data$Income) # Per vedere la distribuzione dei valori 
+
+new_data <- new_data %>% mutate(Income = ifelse(Income == 3, 11, Income))
+new_data <- new_data %>% mutate(Income = ifelse(Income == 5, 3, Income))
+new_data <- new_data %>% mutate(Income = ifelse(Income == 11, 5, Income))
+table(new_data$Income) # Per vedere la distribuzione dei valori
+
+new_data <- new_data %>% mutate(Income = ifelse(Income == 5, 11, Income))
+new_data <- new_data %>% mutate(Income = ifelse(Income == 3, 5, Income))
+new_data <- new_data %>% mutate(Income = ifelse(Income == 11, 3, Income))
+table(new_data$Income) # Per vedere la distribuzione dei valori
+
+new_data <- new_data %>% mutate(Income = ifelse(Income == 6, 11, Income))
+new_data <- new_data %>% mutate(Income = ifelse(Income == 2, 6, Income))
+new_data <- new_data %>% mutate(Income = ifelse(Income == 11, 2, Income))
+table(new_data$Income) # Per vedere la distribuzione dei valori
+
+new_data <- new_data %>% mutate(Income = ifelse(Income == 7, 11, Income))
+new_data <- new_data %>% mutate(Income = ifelse(Income == 1, 7, Income))
+new_data <- new_data %>% mutate(Income = ifelse(Income == 11, 1, Income))
+
+table(new_data$Income) # Per vedere la distribuzione dei valori 
+#Ora abbiamo # 0 - Dont't know/Not sure/Refused/Blank
+# 1 - 200k+
+# 2 - 100k< <200k
+# 3 - 50k< <100k
+# 4 - 35k< <50k
+# 5 - 25k< <35k
+# 6 - 15k< <25k
+# 7 - Less than 15k
 
 
 ######Aggiustiamo la colonna CHECKUP
@@ -373,26 +487,28 @@ head(new_data) # Visualizza le prime righe del dataframe modificato
 #Metto NA in 0 
 new_data <- new_data %>%
   mutate(Checkup = ifelse(Checkup %in% c(0, NA), 0, Checkup))
-table(new_data$Checkup) # Per vedere la distribuzione dei valori nella colonna Diabetes
+table(new_data$Checkup) # Per vedere la distribuzione dei valori 
 head(new_data) # Visualizza le prime righe del dataframe modificato
 
 #Metto 8 in 5 
 new_data <- new_data %>%
   mutate(Checkup = ifelse(Checkup %in% c(5, 8), 5, Checkup))
-table(new_data$Checkup) # Per vedere la distribuzione dei valori nella colonna Diabetes
+table(new_data$Checkup) # Per vedere la distribuzione dei valori 
 head(new_data) # Visualizza le prime righe del dataframe modificato
+
+
 
 ############Aggiustiamo la colonna BLOODSUGAR
 #Mappo 888 (never) in 0
 new_data <- new_data %>%
   mutate(BloodSugar = ifelse(BloodSugar %in% c(0, 888), 0, BloodSugar))
-table(new_data$BloodSugar) # Per vedere la distribuzione dei valori nella colonna Diabetes
+table(new_data$BloodSugar) # Per vedere la distribuzione dei valori
 head(new_data) # Visualizza le prime righe del dataframe modificato
 
-#Mappo 777 (Not Sure/Don't Know/Refused/Missing) in 42069 
+#Mappo 777 (Not Sure/Don't Know/Refused/Missing) in 42069
 new_data <- new_data %>%
   mutate(BloodSugar = ifelse(BloodSugar %in% c(42069, 777), 42069, BloodSugar))
-table(new_data$BloodSugar) # Per vedere la distribuzione dei valori nella colonna Diabetes
+table(new_data$BloodSugar) # Per vedere la distribuzione dei valori
 head(new_data) # Visualizza le prime righe del dataframe modificato
 
 #Mappo 999 (Refused) in 42069

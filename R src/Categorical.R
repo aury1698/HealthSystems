@@ -1,4 +1,4 @@
-# Prendere varianili categoriche e fare test chi^2 di pearson per l'indipendenza : Slide test di adattamento - pag.14
+# Prendere variabili categoriche e fare test chi^2 di pearson per l'indipendenza : Slide test di adattamento - pag.14
 # Esempio didel professore
 # xmat <- matrix(c(10,18,1,22),nrow=2,byrow=T) 
 # xmat
@@ -14,3 +14,4 @@
 # quindi se accetto H_0 allora le variabili sono indipendenti, altrimenti sono dipendenti
 
 #https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/chisq.test
+

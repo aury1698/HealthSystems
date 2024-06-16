@@ -19,3 +19,12 @@ Bias: ci sarebbe anche DRNKWK1 è il n° dei drink consumati alla settimana calc
 N.B. Per ogni variabile capire se sono categoriche/numeriche/ordinali --> così da assegnare corrispettivo test.
 N.B. Prima di tabella di contingenza fare TEST DI SHAPIRO  --> fitrare colonna "0" per cui non abbiamo valori rilevanti
 N.B. Tabella di contingenza fra Diabete/Non Diabete e tutto il resto (magari income, sesso etc) --> è un test parametrico. Capire su cosa fare ipotesi nulla.
+
+AURO: 
+1) Nel CHOLCHK3 invertire ordine per rendere "never" ultimo:  1-->8; 2-->1; 3-->2;  4--> 3 etc 8-->7
+
+2) Nel SMOKE inverti! vedi se ci sta funzione. Everyday-->4; Someday-->3; Former-->2; Never -->1. 
+
+3) Nel EDUCATION (penultima) inverti ordine delle categorie (No high school grad sarà ultimo, il worst)
+
+4) In INCOME inverti di nuovo mettendo i poveri alla fine, come è giusto che sia

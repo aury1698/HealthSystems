@@ -92,6 +92,7 @@ new_data <- new_data %>%
 table(new_data$Diabetes) # Per vedere la distribuzione dei valori nella colonna Diabetes
 head(new_data) # Visualizza le prime righe del dataframe modificato
 
+
 ######Aggiustiamo la colonna HIGHBLOODPRESSURE
 #Mappa 9 in 0
 new_data <- new_data %>%

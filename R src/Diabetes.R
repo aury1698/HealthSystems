@@ -24,12 +24,17 @@ sum(is.na(data))
 # Controlla se ci sono valori duplicati
 sum(duplicated(data)) # Non ci sono valori duplicati
 
+
 #EDA per le variabili del dataset
 
 # EDA: Diabetes
 # Ever told) (you had) diabetes? (If  ́Yes ́ and respondent is female, ask  ́Was this only when your 
 # were pregnant? ́. If Respondent says pre-diabetes or borderline diabetes, use response code 4
-
+categorical = columns[2]
+# 0 - Dont't know/Not sure/Refused/Blank
+# 1 - Yes / Yes but during pregnancy
+# 2 - No
+# 3 - Pre-Diabetes/Borderline
 mean(Diabetes)
 median(Diabetes)
 var(Diabetes)
@@ -45,7 +50,10 @@ ggplot(data, aes(x = Diabetes)) + geom_bar() +
 
 # EDA: HighBloodPressure 
 # Adults who have been told they have high blood pressure by a doctor, nurse, or other health professional
-
+categorical <- c(categorical, columns[3])
+# 0 - Dont't know/Not sure/Refused/Blank
+# 1 No
+# 2 Yes
 mean(HighBloodPressure)
 median(HighBloodPressure)
 var(HighBloodPressure)
@@ -60,7 +68,10 @@ ggplot(data, aes(x = HighBloodPressure)) + geom_bar() +
 
 # EDA: ToldHighColesterol
 # Have you ever been told by a doctor, nurse or other health professional that your cholesterol is high
-
+categorical <- c(categorical, columns[4])
+# 0 - Dont't know/Not sure/Refused/Blank
+# 1 Yes
+# 2 No
 mean(ToldHighColesterol)
 median(ToldHighColesterol)
 var(ToldHighColesterol)
@@ -74,7 +85,15 @@ ggplot(data, aes(x = ToldHighColesterol)) + geom_bar() +
 
 # EDA: CholesterolCheck
 # About how long has it been since you last had your cholesterol checked
-
+ordinal = columns[5]
+# 0 - Dont't know/Not sure/Refused/Blank
+# 1 - Never
+# 2 - Less than a year
+# 3 - Less than two years
+# 4 - Less than three years
+# 5 - Less than four years
+# 6 - Less than five years
+# 7 - Five years or more
 mean(CholesterolCheck)
 median(CholesterolCheck)
 var(CholesterolCheck)
@@ -88,12 +107,17 @@ ggplot(data, aes(x = CholesterolCheck)) + geom_bar() +
 
 # EDA: BMI
 # Body Mass Index
-
+ordinal <- c(ordinal, columns[6])
+# 0 - Dont't know/Not sure/Refused/Blank
+# 1 - Underweight
+# 2 - Normal weight
+# 3 - Overweight
+# 4 - Obese
 mean(BMI)
 median(BMI)
 var(BMI)
 
-boxplot(BMI, main = "BMI", xlab = "BMI")  #mi sembra ci siano molti outlier
+boxplot(BMI, main = "BMI", xlab = "BMI")  
 
 ggplot(data, aes(x = BMI)) + geom_bar() +
   labs(title = "Distribuzione di BMI",
@@ -102,7 +126,12 @@ ggplot(data, aes(x = BMI)) + geom_bar() +
 
 # EDA: Smoker
 # Four-level smoker status: Everyday smoker, Someday smoker, Former smoker, Non-smoker
-
+ordinal <- c(ordinal, columns[7])
+# 0 - Dont't know/Not sure/Refused/Blank
+# 1 - Everyday Smoker
+# 2 - Someday Smoker
+# 3 - Former Smoker
+# 4 - Never
 mean(Smoker)
 median(Smoker)
 var(Smoker)
@@ -116,7 +145,10 @@ ggplot(data, aes(x = Smoker)) + geom_bar() +
 
 # EDA: HeartDisease
 # Respondents that have ever reported having coronary heart disease (CHD) or myocardial infarction (MI)
-
+categorical <- c(categorical, columns[8])
+# 0 - Dont't know/Not sure/Refused/Blank
+# 1 - Yes
+# 2 - No
 mean(HeartDisease)
 median(HeartDisease)
 var(HeartDisease)
@@ -130,7 +162,10 @@ ggplot(data, aes(x = HeartDisease)) + geom_bar() +
 
 # EDA: Stroke
 # Ever told you had a stroke.
-
+# 0 - Dont't know/Not sure/Refused/Blank
+# 1 - Yes
+# 2 - No
+categorical <- c(categorical, columns[9])
 mean(Stroke)
 median(Stroke)
 var(Stroke)
@@ -144,7 +179,10 @@ ggplot(data, aes(x = Stroke)) + geom_bar() +
 
 # EDA: PhysicalActivity
 # Adults who reported doing physical activity or exercise during the past 30 days other than their regular job
-
+categorical <- c(categorical, columns[10])
+# 0 - Dont't know/Not sure/Refused/Blank
+# 1 - Yes
+# 2 - No
 mean(PhysicalActivity)
 median(PhysicalActivity)
 var(PhysicalActivity)
@@ -158,7 +196,10 @@ ggplot(data, aes(x = PhysicalActivity)) + geom_bar() +
 
 # EDA: Fruit
 # Consume Fruit 1 or more times per day
-
+categorical <- c(categorical, columns[11])
+# 0 - Dont't know/Not sure/Refused/Blank
+# 1 - Yes
+# 2 - No
 mean(Fruit)
 median(Fruit)
 var(Fruit)
@@ -172,7 +213,10 @@ ggplot(data, aes(x = Fruit)) + geom_bar() +
 
 # EDA: Vegetables
 # Consume Vegetables 1 or more times per day
-
+categorical <- c(categorical, columns[12])
+# 0 - Dont't know/Not sure/Refused/Blank
+# 1 - Yes
+# 2 - No
 mean(Vegetables)
 median(Vegetables)
 var(Vegetables)
@@ -186,7 +230,10 @@ ggplot(data, aes(x = Vegetables)) + geom_bar() +
 
 # EDA: HeavyDrinker
 # Heavy drinkers (adult men having more than 14 drinks per week and adult women having more than 7 drinks per week)
-
+categorical <- c(categorical, columns[13])
+# 0 - Dont't know/Not sure/Refused/Blank
+# 1 - No
+# 2 - Yes
 mean(HeavyDrinker)
 median(HeavyDrinker)
 var(HeavyDrinker)
@@ -200,7 +247,10 @@ ggplot(data, aes(x = HeavyDrinker)) + geom_bar() +
 
 # EDA: HealthPlan
 # Adults who had some form of health insurance
-
+categorical <- c(categorical, columns[14])
+# 0 - Dont't know/Not sure/Refused/Blank
+# 1 - Yes
+# 2 - No
 mean(HealthPlan)
 median(HealthPlan)
 var(HealthPlan)
@@ -214,7 +264,10 @@ ggplot(data, aes(x = HealthPlan)) + geom_bar() +
 
 # EDA: MedicalCost
 # Was there a time in the past 12 months when you needed to see a doctor but could not because you could not afford it?
-
+categorical <- c(categorical, columns[15])
+# 0 - Dont't know/Not sure/Refused/Blank
+# 1 - Yes
+# 2 - No
 mean(MedicalCost)
 median(MedicalCost)
 var(MedicalCost)
@@ -228,7 +281,13 @@ ggplot(data, aes(x = MedicalCost)) + geom_bar() +
 
 # EDA: GeneralHealth
 # Would you say that in general your health is
-
+ordinal <- c(ordinal, columns[16])
+# 0 - Dont't know/Not sure/Refused/Blank
+# 1 - Excellent
+# 2 - Very Good
+# 3 - Good
+# 4 - Fair
+# 5 - Poor
 mean(GeneralHealth)
 median(GeneralHealth)
 var(GeneralHealth)
@@ -242,7 +301,9 @@ ggplot(data, aes(x = GeneralHealth)) + geom_bar() +
 
 # EDA: MentalHealth
 # Now thinking about your mental health, which includes stress, depression, and problems with emotions, for how many days during the past 30 days was your mental health not good
-
+numerical = columns[17]
+# 0-30 - Days of not good mental health
+# 31 - Dont't know/Not sure/Refused/Blank
 mean(MentalHealth)
 median(MentalHealth)
 var(MentalHealth)
@@ -256,7 +317,9 @@ ggplot(data, aes(x = MentalHealth)) + geom_bar() +
 
 # EDA: PhysicalHealth
 # Now thinking about your physical health, which includes physical illness and injury, for how many days during the past 30 days was your physical health not good
-
+numerical <- c(numerical, columns[18])
+# 0-30 - Days of not good mental health
+# 31 - Dont't know/Not sure/Refused/Blank
 mean(PhysicalHealth)
 median(PhysicalHealth)
 var(PhysicalHealth)
@@ -270,7 +333,10 @@ ggplot(data, aes(x = PhysicalHealth)) + geom_bar() +
 
 # EDA: WalkingDifficulty
 # Do you have serious difficulty walking or climbing stairs?
-
+categorical <- c(categorical, columns[19])
+# 0 - Dont't know/Not sure/Refused/Blank
+# 1 - Yes
+# 2 - No
 mean(WalkingDifficulty)
 median(WalkingDifficulty)
 var(WalkingDifficulty)
@@ -284,7 +350,9 @@ ggplot(data, aes(x = WalkingDifficulty)) + geom_bar() +
 
 # EDA: Sex
 # Sex of Respondent
-
+categorical <- c(categorical, columns[20])
+# 1 - Male
+# 2 - Female
 mean(Sex)
 median(Sex)
 var(Sex)
@@ -298,7 +366,21 @@ ggplot(data, aes(x = Sex)) + geom_bar() +
 
 # EDA: Age
 # Fourteen-level age category
-
+ordinal <- c(ordinal, columns[21])
+# 0 - Dont't know/Not sure/Refused/Blank
+# 1 - 18 / 24
+# 2 - 25 / 29
+# 3 - 30 / 34
+# 4 - 35 / 39
+# 5 - 40 / 44
+# 6 - 45 / 49
+# 7 - 50 / 54
+# 8 - 55 / 59
+# 9 - 60 / 64
+# 10 - 65 / 69
+# 11 - 70 / 74
+# 12 - 75 / 79
+# 13 - 80+
 mean(Age)
 median(Age)
 var(Age)
@@ -312,7 +394,12 @@ ggplot(data, aes(x = Age)) + geom_bar() +
 
 # EDA: Education
 # What is the highest grade or year of school you completed
-
+ordinal <- c(ordinal, columns[22])
+# 0 - Dont't know/Not sure/Refused/Blank
+# 1 - Non high school graduate
+# 2 - High school graduate
+# 3 - Attended college
+# 4 - College degree
 mean(Education)
 median(Education)
 var(Education)
@@ -326,7 +413,15 @@ ggplot(data, aes(x = Education)) + geom_bar() +
 
 # EDA: Income
 # Is your annual household income from all sources
-
+ordinal <- c(ordinal, columns[23])
+# 0 - Dont't know/Not sure/Refused/Blank
+# 1 - Less than 15k
+# 2 - 15k< <25k
+# 3 - 25k< <35k
+# 4 - 35k< <50k
+# 5 - 50k< <100k
+# 6 - 100k< <200k
+# 7 - 200k+
 mean(Income)
 median(Income)
 var(Income)

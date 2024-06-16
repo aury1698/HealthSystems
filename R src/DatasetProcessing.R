@@ -26,7 +26,7 @@ selected_columns <- c("DIABETE4", "X_RFHYPE6", "TOLDHI3",
                       "X_VEGLT1A", "X_RFDRHV7", "X_HLTHPLN",
                       "MEDCOST1", "GENHLTH", "MENTHLTH",
                       "PHYSHLTH", "DIFFWALK", "SEXVAR", "X_AGEG5YR",
-                      "X_EDUCAG", "X_INCOMG1")
+                      "X_EDUCAG", "X_INCOMG1", "CHECKUP1", "BLDSUGAR", "FEETCHK3")
 new_data <- data[, selected_columns]
 # visualizza le prime righe del nuovo dataset
 head(new_data)
@@ -40,7 +40,7 @@ colnames(new_data) <- c("Diabetes", "HighBloodPressure", "ToldHighColesterol",
                         "Vegetables", "HeavyDrinker", "HealthPlan",
                         "MedicalCost", "GeneralHealth", "MentalHealth",
                         "PhysicalHealth", "WalkingDifficulty", "Sex", "Age",
-                        "Education", "Income")
+                        "Education", "Income", "Checkup", "BloodSugar", "FeetCheck")
 
 colnames(new_data) # visualizza i nomi delle colonne
 
@@ -356,6 +356,138 @@ new_data <- new_data %>%
   mutate(Income = ifelse(Income %in% c(0, 9), 0, Income))
 table(new_data$Income) # Per vedere la distribuzione dei valori nella colonna Diabetes
 head(new_data) # Visualizza le prime righe del dataframe modificato
+
+
+######Aggiustiamo la colonna CHECKUP
+new_data <- new_data %>%
+  mutate(Checkup = ifelse(Checkup %in% c(0, 7), 0, Checkup))
+table(new_data$Checkup) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+#Metto 9 in 0
+new_data <- new_data %>%
+  mutate(Checkup = ifelse(Checkup %in% c(0, 9), 0, Checkup))
+table(new_data$Checkup) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+#Metto NA in 0 
+new_data <- new_data %>%
+  mutate(Checkup = ifelse(Checkup %in% c(0, NA), 0, Checkup))
+table(new_data$Checkup) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+#Metto 8 in 5 
+new_data <- new_data %>%
+  mutate(Checkup = ifelse(Checkup %in% c(5, 8), 5, Checkup))
+table(new_data$Checkup) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+############Aggiustiamo la colonna BLOODSUGAR
+#Mappo 888 (never) in 0
+new_data <- new_data %>%
+  mutate(BloodSugar = ifelse(BloodSugar %in% c(0, 888), 0, BloodSugar))
+table(new_data$BloodSugar) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+#Mappo 777 (Not Sure/Don't Know/Refused/Missing) in 42069 
+new_data <- new_data %>%
+  mutate(BloodSugar = ifelse(BloodSugar %in% c(42069, 777), 42069, BloodSugar))
+table(new_data$BloodSugar) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+#Mappo 999 (Refused) in 42069
+new_data <- new_data %>%
+  mutate(BloodSugar = ifelse(BloodSugar %in% c(42069, 999), 42069, BloodSugar))
+table(new_data$BloodSugar) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+#Mappo NA in 42069
+new_data <- new_data %>%
+  mutate(BloodSugar = ifelse(BloodSugar %in% c(42069, NA), 42069, BloodSugar))
+table(new_data$BloodSugar) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+#Se il valore è compreso fra 401-499 allora lo mappiamo in 01-99 che sono le volte che il paziente ha fatto il test all'anno (togliamo il "4")
+new_data <- new_data %>%
+  mutate(BloodSugar = ifelse(BloodSugar %in% c(401:499), BloodSugar - 400, BloodSugar))
+table(new_data$BloodSugar) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+#Se il valore è compreso fra 301 e 399 allora mappiamo in 01-99 che sono le volte che il paziente ha fatto il test al mese (togliamo il "3") e moltiplico per 12 il valore per consierare il check annuale
+new_data <- new_data %>%
+  mutate(BloodSugar = ifelse(BloodSugar %in% c(301:399), (BloodSugar - 300) * 12, BloodSugar))
+table(new_data$BloodSugar) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+#Se il valore è compreso fra 201 e 299 allora mappiamo in 01-99 che sono le volte che il paziente ha fatto il test alla settimana (togliamo il "2") e moltiplico per 52 il valore per consierare il check annuale
+new_data <- new_data %>%
+  mutate(BloodSugar = ifelse(BloodSugar %in% c(201:299), (BloodSugar - 200) * 52, BloodSugar))
+table(new_data$BloodSugar) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+#Se il valore è compreso fra 101 e 199 allora mappiamo in 01-99 che sono le volte che il paziente ha fatto il test al giorno (togliamo il "1") e moltiplico per 365 il valore per consierare il check annuale
+new_data <- new_data %>%
+  mutate(BloodSugar = ifelse(BloodSugar %in% c(101:199), (BloodSugar - 100) * 365, BloodSugar))
+table(new_data$BloodSugar) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+
+
+#####Aggiustiamo la colonna FEETCHK3 proprio come abbiamo fatto per BloodSugar
+#Mappo 888 (never) in 0
+new_data <- new_data %>%
+  mutate(FeetCheck = ifelse(FeetCheck %in% c(0, 888), 0, FeetCheck))
+table(new_data$FeetCheck) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+#Mappo 777 (Not Sure/Don't Know/Refused/Missing) in 42069
+new_data <- new_data %>%
+  mutate(FeetCheck = ifelse(FeetCheck %in% c(42069, 777), 42069, FeetCheck))
+table(new_data$FeetCheck) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+#Mappo 999 (Refused) in 42069
+new_data <- new_data %>%
+  mutate(FeetCheck = ifelse(FeetCheck %in% c(42069, 999), 42069, FeetCheck))
+table(new_data$FeetCheck) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+#Mappo NA in 42069
+new_data <- new_data %>%
+  mutate(FeetCheck = ifelse(FeetCheck %in% c(42069, NA), 42069, FeetCheck))
+table(new_data$FeetCheck) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+#Mappo 555 (persone senza piedi) in 42069
+new_data <- new_data %>%
+  mutate(FeetCheck = ifelse(FeetCheck %in% c(42069, 555), 42069, FeetCheck))
+table(new_data$FeetCheck) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+#Se il valore è compreso fra 401-499 allora lo mappiamo in 01-99 che sono le volte che il paziente ha fatto il test all'anno (togliamo il "4")
+new_data <- new_data %>%
+  mutate(FeetCheck = ifelse(FeetCheck %in% c(401:499), FeetCheck - 400, FeetCheck))
+table(new_data$FeetCheck) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+#Se il valore è compreso fra 301 e 399 allora mappiamo in 01-99 che sono le volte che il paziente ha fatto il test al mese (togliamo il "3") e moltiplico per 12 il valore per consierare il check annuale
+new_data <- new_data %>%
+  mutate(FeetCheck = ifelse(FeetCheck %in% c(301:399), (FeetCheck - 300) * 12, FeetCheck))
+table(new_data$FeetCheck) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+#Se il valore è compreso fra 201 e 299 allora mappiamo in 01-99 che sono le volte che il paziente ha fatto il test alla settimana (togliamo il "2") e moltiplico per 52 il valore per consierare il check annuale
+new_data <- new_data %>%
+  mutate(FeetCheck = ifelse(FeetCheck %in% c(201:299), (FeetCheck - 200) * 52, FeetCheck))
+table(new_data$FeetCheck) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
+#Se il valore è compreso fra 101 e 199 allora mappiamo in 01-99 che sono le volte che il paziente ha fatto il test al giorno (togliamo il "1") e moltiplico per 365 il valore per consierare il check annuale
+new_data <- new_data %>%
+  mutate(FeetCheck = ifelse(FeetCheck %in% c(101:199), (FeetCheck - 100) * 365, FeetCheck))
+table(new_data$FeetCheck) # Per vedere la distribuzione dei valori nella colonna Diabetes
+head(new_data) # Visualizza le prime righe del dataframe modificato
+
 
 
 write.csv(new_data, file = "./data/diabetes_dataset_temp.csv")

@@ -620,7 +620,6 @@ sum(is.na(new_data))
 # esporta il nuovo dataset finale in un file CSV
 write.csv(new_data, file = "./data/diabetes_dataset_processed.csv")
 
-<<<<<<< HEAD
 # Diabetes
 # Ever told) (you had) diabetes? (If  ́Yes ́ and respondent is female, ask  ́Was this only when your 
 # were pregnant? ́. If Respondent says pre-diabetes or borderline diabetes, use response code 4
@@ -781,6 +780,3 @@ write.csv(new_data, file = "./data/diabetes_dataset_processed.csv")
 # 5 - 50k< <100k
 # 6 - 100k< <200k
 # 7 - 200k+
-=======
-
->>>>>>> f9eea3b104a837ad45bfe85a7a223a4064c875f4

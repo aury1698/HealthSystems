@@ -138,6 +138,47 @@ with_diabetes = ordinal_data[ordinal_data["Diabetes"] == 1,]
 without_diabetes = ordinal_data[ordinal_data["Diabetes"] == 2,]
 pre_diabetes = ordinal_data[ordinal_data["Diabetes"] == 3,]
 
+# plot the pdfs of the three groups
+
+ggplot(ordinal_data, aes(x = CholesterolCheck, fill = factor(Diabetes))) +
+  geom_bar() +
+  labs(title = "CholesterolCheck") +
+  theme_minimal()
+
+ggplot(ordinal_data, aes(x = BMI, fill = factor(Diabetes))) +
+  geom_bar() +
+  labs(title = "BMI") +
+  theme_minimal()
+
+ggplot(ordinal_data, aes(x = Smoker, fill = factor(Diabetes))) +
+  geom_bar() +
+  labs(title = "Smoker") +
+  theme_minimal()
+
+ggplot(ordinal_data, aes(x = GeneralHealth, fill = factor(Diabetes))) +
+  geom_bar() +
+  labs(title = "GeneralHealth") +
+  theme_minimal()
+
+ggplot(ordinal_data, aes(x = Age, fill = factor(Diabetes))) +
+  geom_bar() +
+  labs(title = "Age") +
+  theme_minimal()
+
+ggplot(ordinal_data, aes(x = Education, fill = factor(Diabetes))) +
+  geom_bar() +
+  labs(title = "Education") +
+  theme_minimal()
+
+ggplot(ordinal_data, aes(x = Income, fill = factor(Diabetes))) +
+  geom_bar() +
+  labs(title = "Income") +
+  theme_minimal()
+
+ggplot(ordinal_data, aes(x = CheckUp, fill = factor(Diabetes))) +
+  geom_bar() +
+  labs(title = "CheckUp") +
+  theme_minimal()
 # https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/kruskal.test
 CholesterolCheck1 <- as.numeric(as.character(with_diabetes$CholesterolCheck))
 CholesterolCheck2 <- as.numeric(as.character(without_diabetes$CholesterolCheck))
@@ -195,13 +236,13 @@ kruskal.test(list(CheckUp1[CheckUp1 > 0],
                   CheckUp2[CheckUp2 > 0],
                   CheckUp3[CheckUp3 > 0]))
                   
-kruskal.test(CholesterolCheck ~ Diabetes, data = ordinal_data)
-kruskal.test(BMI ~ Diabetes, data = ordinal_data)
-kruskal.test(Smoker ~ Diabetes, data = ordinal_data)
-kruskal.test(GeneralHealth ~ Diabetes, data = ordinal_data)
-kruskal.test(Age ~ Diabetes, data = ordinal_data)
-kruskal.test(Education ~ Diabetes, data = ordinal_data)
-kruskal.test(Income ~ Diabetes, data = ordinal_data)
+# kruskal.test(CholesterolCheck ~ Diabetes, data = ordinal_data)
+# kruskal.test(BMI ~ Diabetes, data = ordinal_data)
+# kruskal.test(Smoker ~ Diabetes, data = ordinal_data)
+# kruskal.test(GeneralHealth ~ Diabetes, data = ordinal_data)
+# kruskal.test(Age ~ Diabetes, data = ordinal_data)
+# kruskal.test(Education ~ Diabetes, data = ordinal_data)
+# kruskal.test(Income ~ Diabetes, data = ordinal_data)
 
 # verifica diff.soggetti
 # verifica diff.gruppi

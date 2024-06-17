@@ -30,67 +30,78 @@ corr_matrix <- setNames(data.frame(matrix(0 ,nrow=8,ncol=8),
                                 "Age", "Education", "Income"))
 
 corr <- cor.test(Diabetes, CholesterolCheck, method = 'spearman', exact=FALSE)
-corr_matrix["Diabetes", "CholesterolCheck"] <- corr$p.value
+corr_matrix["Diabetes", "CholesterolCheck"] <- corr$estimate
 corr <-cor.test(Diabetes, BMI, method = 'spearman', exact=FALSE)
-corr_matrix["Diabetes", "BMI"] <- corr$p.value
+corr_matrix["Diabetes", "BMI"] <- corr$estimate
 corr <-cor.test(Diabetes, Smoker, method = 'spearman', exact=FALSE)
-corr_matrix["Diabetes", "Smoker"] <- corr$p.value
+corr_matrix["Diabetes", "Smoker"] <- corr$estimate
 corr <-cor.test(Diabetes, GeneralHealth, method = 'spearman', exact=FALSE)
-corr_matrix["Diabetes", "GeneralHealth"] <- corr$p.value
+corr_matrix["Diabetes", "GeneralHealth"] <- corr$estimate
 corr <-cor.test(Diabetes, Age, method = 'spearman', exact=FALSE)
-corr_matrix["Diabetes", "Age"] <- corr$p.value
+corr_matrix["Diabetes", "Age"] <- corr$estimate
 corr <-cor.test(Diabetes, Education, method = 'spearman', exact=FALSE)
-corr_matrix["Diabetes", "Education"] <- corr$p.value
+corr_matrix["Diabetes", "Education"] <- corr$estimate
 corr <-cor.test(Diabetes, Income, method = 'spearman', exact=FALSE)
-corr_matrix["Diabetes", "Income"] <- corr$p.value
+corr_matrix["Diabetes", "Income"] <- corr$estimate
 
 corr <-cor.test(CholesterolCheck, BMI, method = 'spearman', exact=FALSE)
-corr_matrix["CholesterolCheck", "BMI"] <- corr$p.value
+corr_matrix["CholesterolCheck", "BMI"] <- corr$estimate
 corr <-cor.test(CholesterolCheck, Smoker, method = 'spearman', exact=FALSE)
-corr_matrix["CholesterolCheck", "Smoker"] <- corr$p.value
+corr_matrix["CholesterolCheck", "Smoker"] <- corr$estimate
 corr <-cor.test(CholesterolCheck, GeneralHealth, method = 'spearman', exact=FALSE)
-corr_matrix["CholesterolCheck", "GeneralHealth"] <- corr$p.value
+corr_matrix["CholesterolCheck", "GeneralHealth"] <- corr$estimate
 corr <-cor.test(CholesterolCheck, Age, method = 'spearman', exact=FALSE)
-corr_matrix["CholesterolCheck", "Age"] <- corr$p.value
+corr_matrix["CholesterolCheck", "Age"] <- corr$estimate
 corr <-cor.test(CholesterolCheck, Education, method = 'spearman', exact=FALSE)
-corr_matrix["CholesterolCheck", "Education"] <- corr$p.value
+corr_matrix["CholesterolCheck", "Education"] <- corr$estimate
 corr <-cor.test(CholesterolCheck, Income, method = 'spearman', exact=FALSE)
-corr_matrix["CholesterolCheck", "Income"] <- corr$p.value
+corr_matrix["CholesterolCheck", "Income"] <- corr$estimate
 
 corr <-cor.test(BMI, Smoker, method = 'spearman', exact=FALSE)
-corr_matrix["BMI", "Smoker"] <- corr$p.value
+corr_matrix["BMI", "Smoker"] <- corr$estimate
 corr <-cor.test(BMI, GeneralHealth, method = 'spearman', exact=FALSE)
-corr_matrix["BMI", "GeneralHealth"] <- corr$p.value
+corr_matrix["BMI", "GeneralHealth"] <- corr$estimate
 corr <-cor.test(BMI, Age, method = 'spearman', exact=FALSE)
-corr_matrix["BMI", "Age"] <- corr$p.value
+corr_matrix["BMI", "Age"] <- corr$estimate
 corr <-cor.test(BMI, Education, method = 'spearman', exact=FALSE)
-corr_matrix["BMI", "Education"] <- corr$p.value
+corr_matrix["BMI", "Education"] <- corr$estimate
 corr <-cor.test(BMI, Income, method = 'spearman', exact=FALSE)
-corr_matrix["BMI", "Income"] <- corr$p.value
+corr_matrix["BMI", "Income"] <- corr$estimate
 
 corr <-cor.test(Smoker, GeneralHealth, method = 'spearman', exact=FALSE)
-corr_matrix["Smoker", "GeneralHealth"] <- corr$p.value
+corr_matrix["Smoker", "GeneralHealth"] <- corr$estimate
 corr <-cor.test(Smoker, Age, method = 'spearman', exact=FALSE)
-corr_matrix["Smoker", "Age"] <- corr$p.value
+corr_matrix["Smoker", "Age"] <- corr$estimate
 corr <-cor.test(Smoker, Education, method = 'spearman', exact=FALSE)
-corr_matrix["Smoker", "Education"] <- corr$p.value
+corr_matrix["Smoker", "Education"] <- corr$estimate
 corr <-cor.test(Smoker, Income, method = 'spearman', exact=FALSE)
-corr_matrix["Smoker", "Income"] <- corr$p.value
+corr_matrix["Smoker", "Income"] <- corr$estimate
 
 corr <-cor.test(GeneralHealth, Age, method = 'spearman', exact=FALSE)
-corr_matrix["GeneralHealth", "Age"] <- corr$p.value
+corr_matrix["GeneralHealth", "Age"] <- corr$estimate
 corr <-cor.test(GeneralHealth, Education, method = 'spearman', exact=FALSE)
-corr_matrix["GeneralHealth", "Education"] <- corr$p.value
+corr_matrix["GeneralHealth", "Education"] <- corr$estimate
 corr <-cor.test(GeneralHealth, Income, method = 'spearman', exact=FALSE)
-corr_matrix["GeneralHealth", "Income"] <- corr$p.value
+corr_matrix["GeneralHealth", "Income"] <- corr$estimate
 
 corr <-cor.test(Age, Education, method = 'spearman', exact=FALSE)
-corr_matrix["Age", "Education"] <- corr$p.value
+corr_matrix["Age", "Education"] <- corr$estimate
 corr <-cor.test(Age, Income, method = 'spearman', exact=FALSE)
-corr_matrix["Age", "Income"] <- corr$p.value
+corr_matrix["Age", "Income"] <- corr$estimate
 
-corr <-cor.test(Education, Income, method = 'spearman', exact=FALSE)
-corr_matrix["Education", "Income"] <- corr$p.value
+# corr <-cor.test(Education, Income, method = 'spearman', exact=FALSE)
+# corr_matrix["Education", "Income"] <- corr$estimate
+# Calcola il coefficiente di correlazione
+corr <- cor.test(Education, Income, method = 'spearman', exact = FALSE)
+
+# Memorizza il coefficiente di correlazione in corr_matrix
+corr_matrix["Education", "Income"] <- corr$estimate
+
+#Stampa corr$estimate tra Education e Income
+corr$estimate
+
+#Stampa questa corr_matrix 
+corr_matrix
 
 install.packages("GGally")
 library(GGally)
@@ -122,3 +133,5 @@ friedman.test(Diabetes, CholesterolCheck, X, exact = FALSE)
 # analisi post-hoc non parametrica Wilcoxson
 
 # si può fare questa roba con dati ordinali?
+
+

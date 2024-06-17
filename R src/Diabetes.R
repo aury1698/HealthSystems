@@ -19,7 +19,7 @@ attach(data) # variabili utilizzabili direttamente, ignorare errore
 columns = colnames(data)
 
 # Controlla se ci sono valori nulli
-sum(is.na(data)) 
+sum(is.na(data))
 
 # Controlla se ci sono valori duplicati
 sum(duplicated(data)) # Non ci sono valori duplicati
@@ -48,7 +48,7 @@ ggplot(data, aes(x = Diabetes)) + geom_bar() +
        y = "Frequenza")
 
 
-# EDA: HighBloodPressure 
+# EDA: HighBloodPressure
 # Adults who have been told they have high blood pressure by a doctor, nurse, or other health professional
 categorical <- c(categorical, columns[3])
 # 0 - Dont't know/Not sure/Refused/Blank

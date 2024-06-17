@@ -121,7 +121,7 @@ ggcorr(ordinal_data,
 # vedere se friedman si può fare tra più variabili o due per volta
 # https://www.statology.org/friedman-test-r/
 # Quali sono i blocchi e quali sono i gruppi?
-friedman.test(Diabetes, CholesterolCheck, X, exact = FALSE)
+#friedman.test(Diabetes, CholesterolCheck, X, exact = FALSE)
 
 
 # verifica diff.soggetti

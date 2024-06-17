@@ -94,13 +94,3 @@ print(fisherResult2) # test esatto di Fisher --> p-value = 0.0004998 quindi rifi
 #Anche qui rifiutiamo l'ipotesi nulla e concludiamo che le due variabili Diabetes e ToldHighColesterol non sono indipendenti
 
 
-
-
-
-# 3) ToldHighColesterol
-# Have you ever been told by a doctor, nurse or other health professional that your cholesterol is high
-# categorical <- c(categorical, columns[4])
-# # 0 - Dont't know/Not sure/Refused/Blank
-# # 1 Yes
-# # 2 No
-

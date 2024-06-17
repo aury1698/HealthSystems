@@ -7,7 +7,7 @@ if (!require(foreign)) {
 if (!require(dplyr)) {
   install.packages("dplyr")
 }
-
+#
 library(haven)
 library(foreign)
 library(dplyr)
@@ -606,7 +606,7 @@ head(new_data) # Visualizza le prime righe del dataframe modificato
 
 
 
-write.csv(new_data, file = "../data/diabetes_dataset_temp.csv")
+#write.csv(new_data, file = "../data/diabetes_dataset_temp.csv")
 
 
 # visualizza le prime righe del dataset con colonne rinominate

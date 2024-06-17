@@ -13,7 +13,7 @@ library(foreign)
 library(dplyr)
 
 # carica dati in formato xpt da file con header
-data <- read.xport(file.choose())
+data <- read.xport("../data/LLCP2021.XPT")
 head(data) # visualizza prime righe del dataframe
 attach(data) # variabili utilizzabili direttamente
 
@@ -606,7 +606,7 @@ head(new_data) # Visualizza le prime righe del dataframe modificato
 
 
 
-write.csv(new_data, file = "./data/diabetes_dataset_temp.csv")
+write.csv(new_data, file = "../data/diabetes_dataset_temp.csv")
 
 
 # visualizza le prime righe del dataset con colonne rinominate
@@ -618,9 +618,8 @@ sum(is.na(new_data))
 
 
 # esporta il nuovo dataset finale in un file CSV
-write.csv(new_data, file = "./data/diabetes_dataset_processed.csv")
+write.csv(new_data, file = "../data/diabetes_dataset_processed.csv")
 
-<<<<<<< HEAD
 # Diabetes
 # Ever told) (you had) diabetes? (If  ́Yes ́ and respondent is female, ask  ́Was this only when your 
 # were pregnant? ́. If Respondent says pre-diabetes or borderline diabetes, use response code 4
@@ -644,13 +643,13 @@ write.csv(new_data, file = "./data/diabetes_dataset_processed.csv")
 # CholesterolCheck
 # About how long has it been since you last had your cholesterol checked
 # 0 - Dont't know/Not sure/Refused/Blank
-# 1 - Never
-# 2 - Less than a year
-# 3 - Less than two years
-# 4 - Less than three years
-# 5 - Less than four years
-# 6 - Less than five years
-# 7 - Five years or more
+# 1 - Less than a year
+# 2 - Less than two years
+# 3 - Less than three years
+# 4 - Less than four years
+# 5 - Less than five years
+# 6 - Five years or more
+# 7 - Never
 
 # BMI
 # Body Mass Index
@@ -663,10 +662,10 @@ write.csv(new_data, file = "./data/diabetes_dataset_processed.csv")
 # Smoker
 # Four-level smoker status: Everyday smoker, Someday smoker, Former smoker, Non-smoker
 # 0 - Dont't know/Not sure/Refused/Blank
-# 1 - Everyday Smoker
-# 2 - Someday Smoker
-# 3 - Former Smoker
-# 4 - Never
+# 1 - Never
+# 2 - Former Smoker
+# 3 - Someday Smoker
+# 4 - Everyday Smoker
 
 # HeartDisease
 # Respondents that have ever reported having coronary heart disease (CHD) or myocardial infarction (MI)
@@ -766,21 +765,37 @@ write.csv(new_data, file = "./data/diabetes_dataset_processed.csv")
 # Education
 # What is the highest grade or year of school you completed
 # 0 - Dont't know/Not sure/Refused/Blank
-# 1 - Non high school graduate
-# 2 - High school graduate
-# 3 - Attended college
-# 4 - College degree
+# 1 - College degree
+# 2 - Attended college
+# 3 - High school graduate
+# 4 - Non high school graduate
 
 # Income
 # Is your annual household income from all sources
 # 0 - Dont't know/Not sure/Refused/Blank
-# 1 - Less than 15k
-# 2 - 15k< <25k
-# 3 - 25k< <35k
+# 1 - 200k+
+# 2 - 100k< <200k
+# 3 - 50k< <100k
 # 4 - 35k< <50k
-# 5 - 50k< <100k
-# 6 - 100k< <200k
-# 7 - 200k+
-=======
+# 5 - 25k< <35k
+# 6 - 15k< <25k
+# 7 - Less than 15k
 
->>>>>>> f9eea3b104a837ad45bfe85a7a223a4064c875f4
+# Checkup
+# About how long has it been since you last visited a doctor for a routine checkup?
+# 0 - Don’t know/Not sure/Refused
+# 1 - Within past year (anytime < 12 months ago) 
+# 2 - Within past 2 years (1 year but < 2 years ago) 
+# 3 - Within past 5 years (2 years but < 5 years ago)
+# 4 - 5 or more years ago 
+# 5 - Never
+
+# BloodSugar
+# About how often do you check your blood for glucose or sugar?
+# 0 - Don’t know/Not sure/Refused
+# X - Times in a year 
+
+# FeetCheck
+# Including times when checked by a family member or friend, about how often do you check your feet for any sores or irritations?
+# 0 - Don’t know/Not sure/Refused
+# X - Times in a year 

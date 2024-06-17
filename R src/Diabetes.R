@@ -13,7 +13,7 @@ if (!require(ggplot2)) {
 }
 
 # Carica i dati "diabetes_dataset.csv"
-data <- read.csv('./data/diabetes_dataset_processed.csv', header = TRUE, sep = ",")
+data <- read.csv('../data/diabetes_dataset_processed.csv', header = TRUE, sep = ",")
 head(data) # visualizza prime righe del dataframe
 attach(data) # variabili utilizzabili direttamente, ignorare errore
 columns = colnames(data)
@@ -457,7 +457,7 @@ ggplot(data, aes(x = Checkup)) + geom_bar() +
 #EDA: BloodSugar
 #About how often do you check your blood for glucose or sugar? 
 numerical <- c(numerical, columns[25])
-#42069 - Not sure/Refused/Blank
+# 42069 - Not sure/Refused/Blank
 # Times per day, per week, per month, per year
 mean(BloodSugar)
 median(BloodSugar)
@@ -473,7 +473,7 @@ ggplot(data, aes(x = BloodSugar)) + geom_bar() +
 #EDA: FeetCheck
 #Including times when checked by a family member or friend, about how often do you check your feet for sores or irritations?
 numerical <- c(numerical, columns[26])
-#42069 - Not sure/Refused/Blank
+# 42069 - Not sure/Refused/Blank
 # Times per day, per week, per month, per year
 mean(FeetCheck)
 median(FeetCheck)
@@ -486,73 +486,37 @@ ggplot(data, aes(x = FeetCheck)) + geom_bar() +
        x = "FeetCheck",
        y = "Frequenza")
 
+categorical
+ordinal
+numerical
 
 
+# #EDA: Correlazione tra variabili numeriche (da capire se rilevante)
+# correlation_matrix <- cor(data, use = "complete.obs")
+# library(corrplot)
+# if (!require(corrplot)) {
+#   install.packages("corrplot")
+# }
+# corrplot(correlation_matrix, method = "circle")
 
-#EDA: Correlazione tra variabili numeriche (da capire se rilevante)
-correlation_matrix <- cor(data, use = "complete.obs")
-library(corrplot)
-if (!require(corrplot)) {
-  install.packages("corrplot")
-}
-corrplot(correlation_matrix, method = "circle")
+# # Provvisorio: grafico di che fa vedere una variabile in funzione di un'altra (qui Sesso)
+# ggplot(data, aes(x = Age, fill = factor(Sex))) + 
+#   geom_bar(position = "dodge") +
+#   labs(title = "Distribuzione di Age per Sex",
+#        x = "Age",
+#        y = "Frequenza")
 
-# Provvisorio: grafico di che fa vedere una variabile in funzione di un'altra (qui Sesso)
-ggplot(data, aes(x = Age, fill = factor(Sex))) + 
-  geom_bar(position = "dodge") +
-  labs(title = "Distribuzione di Age per Sex",
-       x = "Age",
-       y = "Frequenza")
+# #Provvisiorio:  forse ha senso grafico del diabete in funzione di età e sesso (?)
+# # Prevalenza del diabete per fasce di età
+# ggplot(data, aes(x = Age, fill = factor(Diabetes))) + 
+#   geom_bar(position = "fill") +
+#   labs(title = "Prevalenza del diabete per fasce di età",
+#        x = "Age",
+#        y = "Proporzione")
 
-
-#Provvisiorio:  forse ha senso grafico del diabete in funzione di età e sesso (?)
-# Prevalenza del diabete per fasce di età
-ggplot(data, aes(x = Age, fill = factor(Diabetes))) + 
-  geom_bar(position = "fill") +
-  labs(title = "Prevalenza del diabete per fasce di età",
-       x = "Age",
-       y = "Proporzione")
-
-#Prevalenza del diabete per fasce di età 
-ggplot(data, aes(x = Age, fill = factor(Diabetes))) + 
-  geom_bar(position = "dodge") +
-  labs(title = "Prevalenza del diabete per fasce di età",
-       x = "Age",
-       y = "Frequenza") 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# #Prevalenza del diabete per fasce di età 
+# ggplot(data, aes(x = Age, fill = factor(Diabetes))) + 
+#   geom_bar(position = "dodge") +
+#   labs(title = "Prevalenza del diabete per fasce di età",
+#        x = "Age",
+#        y = "Frequenza") 

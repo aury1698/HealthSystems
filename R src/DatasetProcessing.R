@@ -13,7 +13,7 @@ library(foreign)
 library(dplyr)
 
 # carica dati in formato xpt da file con header
-data <- read.xport("./data/LLCP2021.XPT")
+data <- read.xport("../data/LLCP2021.XPT")
 head(data) # visualizza prime righe del dataframe
 attach(data) # variabili utilizzabili direttamente
 
@@ -792,13 +792,10 @@ write.csv(new_data, file = "../data/diabetes_dataset_processed.csv")
 
 # BloodSugar
 # About how often do you check your blood for glucose or sugar?
-# 0 - Don’t know/Not sure/Refused
+# 42069 - Don’t know/Not sure/Refused
 # X - Times in a year 
 
 # FeetCheck
 # Including times when checked by a family member or friend, about how often do you check your feet for any sores or irritations?
-# 0 - Don’t know/Not sure/Refused
+# 42069 - Don’t know/Not sure/Refused
 # X - Times in a year 
-# 5 - 50k< <100k
-# 6 - 100k< <200k
-# 7 - 200k+

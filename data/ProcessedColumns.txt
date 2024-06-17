@@ -1,0 +1,9 @@
+{
+    categorical : ["Diabetes", "HighBloodPressure", "ToldHighColesterol",
+                    "HeartDisease", "Stroke", "PhysicalActivity", "Fruit",
+                    "Vegetables", "HeavyDrinker", "HealthPlan", "MedicalCost",
+                    "WalkingDifficulty", "Sex"]
+    ordinal : ["CholesterolCheck", "BMI", "Smoker", "GeneralHealth", "Age",
+               "Education", "Income", "Checkup"]
+    numerical : ["MentalHealth", "PhysicalHealth", "BloodSugar", "FeetCheck"] 
+}               

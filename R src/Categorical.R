@@ -39,6 +39,7 @@
 library(haven)
 library(foreign)
 library(ggplot2)
+library(GGally)
 
 # installa il pacchetto se non è già installato
 if (!require(foreign)) {
@@ -50,10 +51,20 @@ if (!require(ggplot2)) {
   install.packages("ggplot2")
 }
 
+# install the package if it's not already installed
+if (!require(dplyr)) {
+  install.packages("GGally")
+}
+
 # Carica i dati "diabetes_dataset_processed.csv"
 data <- read.csv("./data/diabetes_dataset_processed.csv")
 head(data) # visualizza prime righe del dataframe
 attach(data) # variabili utilizzabili direttamente, ignorare errore
+categorical_columns = c("X", "Diabetes", "CholesterolCheck", "BMI", "Smoker", "GeneralHealth", 
+                    "Age", "Education", "Income")
+ordinal_data <- data[, ordinal_columns]
+attach(ordinal_data)
+rm(data)
 columns = colnames(data)
 
 #Prendiamo Diabetes e HighBloodPressure per fare i test chi quadro e vedere se sono indipendenti
@@ -93,4 +104,11 @@ fisherResult2 <- fisher.test(contingencyTable2, simulate.p.value = TRUE) # test 
 print(fisherResult2) # test esatto di Fisher --> p-value = 0.0004998 quindi rifiutiamo l'ipotesi nulla e concludiamo che le due variabili Diabetes e ToldHighColesterol non sono indipendenti
 #Anche qui rifiutiamo l'ipotesi nulla e concludiamo che le due variabili Diabetes e ToldHighColesterol non sono indipendenti
 
+#Matrice di correlazione di Spearman
 
+ggcorr(ordinal_data, 
+       method = c("pairwise", "spearman"),
+       nbreaks = 6,
+       label = TRUE,
+       label_size = 3,
+       color = "grey50")

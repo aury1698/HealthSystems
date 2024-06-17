@@ -13,7 +13,7 @@ if (!require(ggplot2)) {
 }
 
 # Carica i dati "diabetes_dataset.csv"
-data <- read.csv('../data/diabetes_dataset_processed.csv', header = TRUE, sep = ",")
+data <- read.csv('./data/diabetes_dataset_processed.csv', header = TRUE, sep = ",")
 head(data) # visualizza prime righe del dataframe
 attach(data) # variabili utilizzabili direttamente, ignorare errore
 columns = colnames(data)
@@ -433,6 +433,61 @@ ggplot(data, aes(x = Income)) + geom_bar() +
        x = "Income",
        y = "Frequenza")
 
+#EDA: CheckUp 
+#About how long has it been since you last visited a doctor for a routine checkup?
+ordinal <- c(ordinal, columns[24])
+# 0 - Dont't know/Not sure/Refused/Blank
+# 1 - Less than 1 year
+# 2 - 1-2 years
+# 3 - 2-5 years
+# 4 - 5+ years
+# 5 - Never
+mean(Checkup)
+median(Checkup)
+var(Checkup)
+
+boxplot(Checkup, main = "CheckUp", xlab = "CheckUp")
+
+ggplot(data, aes(x = Checkup)) + geom_bar() +
+  labs(title = "Distribuzione di CheckUp",
+       x = "CheckUp",
+       y = "Frequenza")
+
+
+#EDA: BloodSugar
+#About how often do you check your blood for glucose or sugar? 
+numerical <- c(numerical, columns[25])
+#42069 - Not sure/Refused/Blank
+# Times per day, per week, per month, per year
+mean(BloodSugar)
+median(BloodSugar)
+var(BloodSugar)
+
+boxplot(BloodSugar, main = "BloodSugar", xlab = "BloodSugar")
+
+ggplot(data, aes(x = BloodSugar)) + geom_bar() +
+  labs(title = "Distribuzione di BloodSugar",
+       x = "BloodSugar",
+       y = "Frequenza")
+
+#EDA: FeetCheck
+#Including times when checked by a family member or friend, about how often do you check your feet for sores or irritations?
+numerical <- c(numerical, columns[26])
+#42069 - Not sure/Refused/Blank
+# Times per day, per week, per month, per year
+mean(FeetCheck)
+median(FeetCheck)
+var(FeetCheck)
+
+boxplot(FeetCheck, main = "FeetCheck", xlab = "FeetCheck")
+
+ggplot(data, aes(x = FeetCheck)) + geom_bar() +
+  labs(title = "Distribuzione di FeetCheck",
+       x = "FeetCheck",
+       y = "Frequenza")
+
+
+
 
 #EDA: Correlazione tra variabili numeriche (da capire se rilevante)
 correlation_matrix <- cor(data, use = "complete.obs")
@@ -463,7 +518,25 @@ ggplot(data, aes(x = Age, fill = factor(Diabetes))) +
   geom_bar(position = "dodge") +
   labs(title = "Prevalenza del diabete per fasce di età",
        x = "Age",
-       y = "Frequenza")
+       y = "Frequenza") 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

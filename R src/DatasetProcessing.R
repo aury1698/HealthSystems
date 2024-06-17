@@ -418,7 +418,7 @@ new_data <- new_data %>% mutate(Education = ifelse(Education == 2, 7, Education)
 new_data <- new_data %>% mutate(Education = ifelse(Education == 3, 2, Education))
 new_data <- new_data %>% mutate(Education = ifelse(Education == 7, 3, Education))
 
-table(new_data$Education) # Per vedere la distribuzione dei valori 
+table(new_data$Education) # Per vedere la distribuzione dei valori
 
 
 

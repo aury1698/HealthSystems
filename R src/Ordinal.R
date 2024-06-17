@@ -1,6 +1,7 @@
 library(haven)
 library(foreign)
 library(ggplot2)
+library(GGally)
 
 # installa il pacchetto se non è già installato
 if (!require(foreign)) {
@@ -10,6 +11,11 @@ if (!require(foreign)) {
 # installa il pacchetto se non è già installato
 if (!require(ggplot2)) {
   install.packages("ggplot2")
+}
+
+# install the package if it's not already installed
+if (!require(dplyr)) {
+  install.packages("GGally")
 }
 
 # Carica i dati "diabetes_dataset.csv"
@@ -103,8 +109,8 @@ corr$estimate
 #Stampa questa corr_matrix 
 corr_matrix
 
-install.packages("GGally")
-library(GGally)
+
+
 ggcorr(ordinal_data, 
        method = c("pairwise", "spearman"),
        nbreaks = 6,

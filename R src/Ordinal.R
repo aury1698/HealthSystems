@@ -24,11 +24,12 @@ library(FSA)
 # Load data "diabetes_dataset.csv"
 data <- read.csv("../data/diabetes_dataset_processed.csv", header = TRUE,
                  sep = ",")
-ordinal_columns <- c("X", "Diabetes", "CholesterolCheck", "BMI", "Smoker",
-                     "GeneralHealth", "Age", "Education", "Income", "Checkup")
+ordinal_columns <- c("Age", "BMI", "Smoker","CholesterolCheck",
+                     "GeneralHealth", "Diabetes", "Education", "Income", "Checkup")
 ordinal_data <- data[, ordinal_columns]
-attach(ordinal_data)
 rm(data)
+attach(ordinal_data)
+
 
 # Spearman correlation coeff.
 # 36 possible pairs
@@ -198,8 +199,9 @@ corr_matrix
 data_with_null=ordinal_data
 data_with_null[data_with_null == 0] <- NA
 ggcorr(data_with_null, 
-       method = c("pairwise", "spearman"),
-       nbreaks = 6,
+       method = c("pairwise", "spearman"), name = "Spearman's rank corre. coeff.",
+       hjust = 0.85, size = 5,
+       nbreaks = 7,
        label = TRUE,
        label_size = 3,
        color = "grey50")
@@ -319,36 +321,45 @@ ggplot(ordinal_data, aes(x = Checkup, fill = factor(Diabetes))) +
 #                   Checkup2[Checkup2 > 0],
 #                   Checkup3[Checkup3 > 0]))
                   
-kruskal.test(CholesterolCheck[CholesterolCheck > 0] ~ Diabetes[CholesterolCheck > 0],
+kruskal.test(CholesterolCheck[CholesterolCheck > 0 & Diabetes > 0] ~
+               Diabetes[CholesterolCheck > 0 & Diabetes >0],
              data = ordinal_data)
-kruskal.test(BMI[BMI > 0] ~ Diabetes[BMI > 0], data = ordinal_data)
-kruskal.test(Smoker[Smoker > 0] ~ Diabetes[Smoker > 0], data = ordinal_data)
-kruskal.test(GeneralHealth[GeneralHealth > 0] ~ Diabetes[GeneralHealth > 0],
+kruskal.test(BMI[BMI > 0 & Diabetes >0] ~ Diabetes[BMI > 0 & Diabetes >0],
              data = ordinal_data)
-kruskal.test(Age[Age > 0] ~ Diabetes[Age > 0], data = ordinal_data)
-kruskal.test(Education[Education > 0] ~ Diabetes[Education > 0], data = ordinal_data)
-kruskal.test(Income[Income > 0] ~ Diabetes[Income > 0], data = ordinal_data)
-kruskal.test(Checkup[Checkup > 0] ~ Diabetes[Checkup > 0], data = ordinal_data)
+kruskal.test(Smoker[Smoker > 0 & Diabetes >0] ~ Diabetes[Smoker > 0 & Diabetes >0],
+             data = ordinal_data)
+kruskal.test(GeneralHealth[GeneralHealth >0 & Diabetes >0] ~
+               Diabetes[GeneralHealth > 0 & Diabetes >0], data = ordinal_data)
+kruskal.test(Age[Age > 0 & Diabetes >0] ~ Diabetes[Age > 0 & Diabetes >0],
+             data = ordinal_data)
+kruskal.test(Education[Education > 0 & Diabetes >0] ~
+               Diabetes[Education > 0 & Diabetes >0], data = ordinal_data)
+kruskal.test(Income[Income > 0 & Diabetes >0] ~ Diabetes[Income > 0 & Diabetes >0],
+             data = ordinal_data)
+kruskal.test(Checkup[Checkup > 0 & Diabetes >0] ~ Diabetes[Checkup > 0 & Diabetes >0],
+             data = ordinal_data)
 
 
 # verifica sfericità con greehouse
 # non applicabile a dati ordinali
 # post-hoc con bonferroni
 # Dunn perchè è spesso accoppiato al kruskal-Wallis
-dunnTest(CholesterolCheck[CholesterolCheck > 0] ~ Diabetes[CholesterolCheck > 0],
+dunnTest(CholesterolCheck[CholesterolCheck > 0 & Diabetes >0] ~
+           Diabetes[CholesterolCheck > 0 & Diabetes >0], data = ordinal_data, method = "bonferroni")
+dunnTest(BMI[BMI > 0 & Diabetes >0] ~ Diabetes[BMI > 0 & Diabetes >0],
          data = ordinal_data, method = "bonferroni")
-dunnTest(BMI[BMI > 0] ~ Diabetes[BMI > 0], data = ordinal_data, method = "bonferroni")
-dunnTest(Smoker[Smoker > 0] ~ Diabetes[Smoker > 0], data = ordinal_data,
-         method = "bonferroni")
-dunnTest(GeneralHealth[GeneralHealth > 0] ~ Diabetes[GeneralHealth > 0],
+dunnTest(Smoker[Smoker > 0 & Diabetes >0] ~ Diabetes[Smoker > 0 & Diabetes >0],
          data = ordinal_data, method = "bonferroni")
-dunnTest(Age[Age > 0] ~ Diabetes[Age > 0], data = ordinal_data, method = "bonferroni")
-dunnTest(Education[Education > 0] ~ Diabetes[Education > 0], data = ordinal_data,
-         method = "bonferroni")
-dunnTest(Income[Income > 0] ~ Diabetes[Income > 0], data = ordinal_data,
-         method = "bonferroni")
-dunnTest(Checkup[Checkup > 0] ~ Diabetes[Checkup > 0], data = ordinal_data,
-         method = "bonferroni")
+dunnTest(GeneralHealth[GeneralHealth > 0 & Diabetes >0] ~
+           Diabetes[GeneralHealth > 0 & Diabetes >0], data = ordinal_data, method = "bonferroni")
+dunnTest(Age[Age > 0 & Diabetes >0] ~ Diabetes[Age > 0 & Diabetes >0],
+         data = ordinal_data, method = "bonferroni")
+dunnTest(Education[Education > 0 & Diabetes >0] ~ Diabetes[Education > 0 & Diabetes >0],
+         data = ordinal_data, method = "bonferroni")
+dunnTest(Income[Income > 0 & Diabetes >0] ~ Diabetes[Income > 0 & Diabetes >0],
+         data = ordinal_data, method = "bonferroni")
+dunnTest(Checkup[Checkup > 0 & Diabetes >0] ~ Diabetes[Checkup > 0 & Diabetes >0],
+         data = ordinal_data, method = "bonferroni")
 
 
 

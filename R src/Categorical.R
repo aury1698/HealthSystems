@@ -45,10 +45,10 @@ if (!require(egg)) {
 data <- read.csv("../data/diabetes_dataset_processed.csv")
 head(data) # visualizza prime righe del dataframe
 attach(data) # variabili utilizzabili direttamente, ignorare errore
-categorical_columns = c("Diabetes", "HighBloodPressure", "ToldHighColesterol",
-                    "HeartDisease", "Stroke", "PhysicalActivity", "Fruit",
-                    "Vegetables", "HeavyDrinker", "HealthPlan", "MedicalCost",
-                    "WalkingDifficulty", "Sex")
+categorical_columns = c("Sex", "Fruit", "MedicalCost",
+                       "HeartDisease", "Stroke", "PhysicalActivity", "WalkingDifficulty",
+                       "Vegetables", "HeavyDrinker", "HealthPlan", "ToldHighColesterol",
+                       "HighBloodPressure", "Diabetes")
 categorical_data <- data[, categorical_columns]
 rm(data)
 attach(categorical_data)
@@ -256,15 +256,36 @@ figure <- ggarrange(plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot
                     ncol = 4, nrow = 3)
 
 #############################
+#colnames(categorical_data) <- c("Diabetes", "HighBloodPressure", "ToldHighColesterol",
+#                                "HeartDisease", "Stroke", "PhysicalActivity", "Fruit",
+#                                "Vegetables", "HeavyDrinker", "HealthPlan", "MedicalCost",
+#                                "WalkingDifficulty", "Sex")
 
+#categorical_data = categorical_data[,c("Sex", "Fruit", "MedicalCost",
+#                                       "HeartDisease", "Stroke", "PhysicalActivity", "WalkingDifficulty",
+#                                       "Vegetables", "HeavyDrinker", "HealthPlan", "ToldHighColesterol",
+#                                       "HighBloodPressure", "Diabetes") ]
 #Matrice di correlazione di Spearman
-ggcorr(categorical_data, 
+
+data_with_null=categorical_data
+data_with_null[data_with_null == 0] <- NA
+
+ggcorr(data_with_null, 
        method = c("pairwise", "spearman"),
-       nbreaks = 6,
+       name = "Spearman's rank corre. coeff.",
+       #legend.position = "left",
+       legend.size = 12,
+       hjust = 0.9, size = 5, 
+       nbreaks = 7,
        label = TRUE,
-       label_size = 3,
+       label_size = 5,
        color = "grey50")
 
+categorical_data = categorical_data[, c("Diabetes", "HighBloodPressure", "ToldHighColesterol",
+                                      "HeartDisease", "Stroke", "PhysicalActivity", "Fruit",
+                                      "Vegetables", "HeavyDrinker", "HealthPlan", "MedicalCost",
+                                      "WalkingDifficulty", "Sex")]
+# FILTRARE VALORI NULLI PERCHE' MAGARI CAMBIANO I RISULTATI
 # Creiamo un dataframe vuoto per salvare i risultati
 results <- data.frame()
 
@@ -276,7 +297,7 @@ for(i in 1:(length(categorical_columns)-1)) {
     var2 <- categorical_data[,j]
     
     # Creiamo la tabella di contingenza
-    contingencyTable <- table(var1, var2)
+    contingencyTable <- table(var1[var1 > 0 & var2 > 0], var2[var1 > 0 & var2 > 0])
     
     # Eseguiamo il test chi quadro
     chisqResult <- chisq.test(contingencyTable)
@@ -303,7 +324,7 @@ print(results)
 #Il p-value viene < 2.2e-16 per tutte le coppie, quindi rifiutiamo l'ipotesi nulla e concludiamo che le variabili, prese a due a due, non sono indipendenti
 
 # Scrivi i risultati in un file CSV
-write.csv(results, file = "./results/chiSquare_fisher_results.csv", row.names = FALSE)
+write.csv(results, file = "../results/chiSquare_fisher_results.csv", row.names = FALSE)
 
 #Stampa solo i risultati con p-value < 0.05 per il test chi quadro, ovvero le coppie di variabili categoriche che sono dipendenti 
 print(results[results$ChiSquare_p_value < 0.05,])

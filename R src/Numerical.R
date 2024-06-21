@@ -33,8 +33,9 @@ data <- read.csv("../data/diabetes_dataset_processed.csv", header = TRUE,
 numerical_columns <- c("X", "Diabetes", "MentalHealth", "PhysicalHealth",
                        "BloodSugar", "FeetCheck")
 numerical_data <- data[, numerical_columns]
-attach(numerical_data)
 rm(data)
+attach(numerical_data)
+
 
 # Coeff. di corr. lineare
 with_diabetes = numerical_data[numerical_data["Diabetes"] == 1,]
@@ -53,8 +54,30 @@ cor.test(Diabetes[Diabetes > 0 & MentalHealth <31],
          MentalHealth[Diabetes > 0 & MentalHealth <31],
          na.action=na.omit)
 
+cor.test(Diabetes[Diabetes > 0 & PhysicalHealth <31],
+         PhysicalHealth[Diabetes > 0 & PhysicalHealth <31],
+         na.action=na.omit)
+
+cor.test(Diabetes[Diabetes > 0 & BloodSugar <42069],
+         BloodSugar[Diabetes > 0 & BloodSugar <42069],
+         na.action=na.omit)
+
+cor.test(Diabetes[Diabetes > 0 & FeetCheck <42069],
+         FeetCheck[Diabetes > 0 & FeetCheck <42069],
+         na.action=na.omit)
+
 # occhio alla correlazione perchè nel questionario non tutte le domande
 # sono state fatte a tutte le persone
+
+par(mfrow=c(2,2))
+qqnorm(MentalHealth[MentalHealth < 31],main = "MentalHealth")
+qqline(MentalHealth[MentalHealth < 31])
+qqnorm(PhysicalHealth[PhysicalHealth < 31],main = "PhysicalHealth")
+qqline(PhysicalHealth[PhysicalHealth < 31])
+qqnorm(BloodSugar[BloodSugar < 42069],main = "BloodSugar")
+qqline(BloodSugar[BloodSugar < 42069])
+qqnorm(FeetCheck[FeetCheck < 42069],main = "FeetCheck")
+qqline(FeetCheck[FeetCheck < 42069])
 
 # Controllo normalità con shapiro test
 # shapiro ha dim. massima di 5k campioni

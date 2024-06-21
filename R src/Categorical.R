@@ -19,6 +19,7 @@ library(haven)
 library(foreign)
 library(ggplot2)
 library(GGally)
+library(egg)
 
 # installa il pacchetto se non è già installato
 if (!require(foreign)) {
@@ -35,8 +36,13 @@ if (!require(dplyr)) {
   install.packages("GGally")
 }
 
+if (!require(egg)) {
+  install.packages("egg")
+}
+
+
 # Carica i dati "diabetes_dataset_processed.csv"
-data <- read.csv("./data/diabetes_dataset_processed.csv")
+data <- read.csv("../data/diabetes_dataset_processed.csv")
 head(data) # visualizza prime righe del dataframe
 attach(data) # variabili utilizzabili direttamente, ignorare errore
 categorical_columns = c("Diabetes", "HighBloodPressure", "ToldHighColesterol",
@@ -44,18 +50,11 @@ categorical_columns = c("Diabetes", "HighBloodPressure", "ToldHighColesterol",
                     "Vegetables", "HeavyDrinker", "HealthPlan", "MedicalCost",
                     "WalkingDifficulty", "Sex")
 categorical_data <- data[, categorical_columns]
-attach(categorical_data)
 rm(data)
-columns = colnames(data)
+attach(categorical_data)
 
 
-#Matrice di correlazione di Spearman
-ggcorr(categorical_data, 
-       method = c("pairwise", "spearman"),
-       nbreaks = 6,
-       label = TRUE,
-       label_size = 3,
-       color = "grey50")
+
 
 # #Prendiamo Diabetes e HighBloodPressure per fare i test chi quadro e vedere se sono indipendenti
 # diabetes <- Diabetes
@@ -96,15 +95,18 @@ ggcorr(categorical_data,
 
 
 #Prima visualizziamo le nostre variabili categoriche
+
 ggplot(categorical_data, aes(x = Diabetes)) + geom_bar() +
   labs(title = "Distribuzione di Diabetes",
        x = "Diabetes",
        y = "Frequenza")
 
-ggplot(categorical_data, aes(x = HighBloodPressure)) + geom_bar() +
+ggplot(categorical_data, aes(x = HighBloodPressure, fill = factor(Diabetes))) + geom_bar() +
   labs(title = "Distribuzione di HighBloodPressure",
        x = "HighBloodPressure",
-       y = "Frequenza")
+       y = "Frequenza") +
+  theme_minimal()
+
 
 ggplot(categorical_data, aes(x = ToldHighColesterol)) + geom_bar() +
   labs(title = "Distribuzione di ToldHighColesterol",
@@ -161,7 +163,107 @@ ggplot(categorical_data, aes(x= Sex)) + geom_bar() +
        x = "Sesso",
        y = "Frequenza")
 
+#############################
+# I wat to put all the plots in a image in 4 rows and 3 columns
 
+plot1 <- ggplot(categorical_data, aes(x = Diabetes, fill = factor(HighBloodPressure))) + geom_bar() +
+  labs(title = "Distribuzione di HighBloodPressure",
+       x = "Diabetes",
+       y = "Frequenza") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+plot2 <- ggplot(categorical_data, aes(x = Diabetes, fill = factor(ToldHighColesterol))) + geom_bar() +
+  labs(title = "Distribuzione di HighBloodPressure",
+       x = "Diabetes",
+       y = "Frequenza") +
+  theme_minimal()+
+  theme(legend.position = "none")
+
+plot3 <- ggplot(categorical_data, aes(x = Diabetes, fill = factor(HeartDisease))) + geom_bar() +
+  labs(title = "Distribuzione di HighBloodPressure",
+       x = "Diabetes",
+       y = "Frequenza") +
+  theme_minimal()+
+  theme(legend.position = "none")
+
+plot4 <- ggplot(categorical_data, aes(x = Diabetes, fill = factor(Stroke))) + geom_bar() +
+  labs(title = "Distribuzione di HighBloodPressure",
+       x = "Diabetes",
+       y = "Frequenza") +
+  theme_minimal()+
+  theme(legend.position = "none")
+
+plot5 <- ggplot(categorical_data, aes(x = Diabetes, fill = factor(PhysicalActivity))) + geom_bar() +
+  labs(title = "Distribuzione di HighBloodPressure",
+       x = "Diabetes",
+       y = "Frequenza") +
+  theme_minimal()+
+  theme(legend.position = "none")
+
+plot6 <- ggplot(categorical_data, aes(x = Diabetes, fill = factor(Fruit))) + geom_bar() +
+  labs(title = "Distribuzione di HighBloodPressure",
+       x = "Diabetes",
+       y = "Frequenza") +
+  theme_minimal()+
+  theme(legend.position = "none")
+
+plot7 <- ggplot(categorical_data, aes(x = Diabetes, fill = factor(Vegetables))) + geom_bar() +
+  labs(title = "Distribuzione di HighBloodPressure",
+       x = "Diabetes",
+       y = "Frequenza") +
+  theme_minimal()+
+  theme(legend.position = "none")
+
+plot8 <- ggplot(categorical_data, aes(x = Diabetes, fill = factor(HeavyDrinker))) + geom_bar() +
+  labs(title = "Distribuzione di HighBloodPressure",
+       x = "Diabetes",
+       y = "Frequenza") +
+  theme_minimal()+
+  theme(legend.position = "none")
+
+plot9 <- ggplot(categorical_data, aes(x = Diabetes, fill = factor(HealthPlan))) + geom_bar() +
+  labs(title = "Distribuzione di HighBloodPressure",
+       x = "Diabetes",
+       y = "Frequenza") +
+  theme_minimal()+
+  theme(legend.position = "none")
+
+plot10 <- ggplot(categorical_data, aes(x = Diabetes, fill = factor(MedicalCost))) + geom_bar() +
+  labs(title = "Distribuzione di HighBloodPressure",
+       x = "Diabetes",
+       y = "Frequenza") +
+  theme_minimal()+
+  theme(legend.position = "none")
+
+plot11 <- ggplot(categorical_data, aes(x = Diabetes, fill = factor(WalkingDifficulty))) + geom_bar() +
+  labs(title = "Distribuzione di HighBloodPressure",
+       x = "Diabetes",
+       y = "Frequenza") +
+  theme_minimal()+
+  theme(legend.position = "none")
+
+plot12 <- ggplot(categorical_data, aes(x = Diabetes, fill = factor(Sex))) + geom_bar() +
+  labs(title = "Distribuzione di HighBloodPressure",
+       x = "Diabetes",
+       y = "Frequenza") +
+  theme_minimal()+
+  theme(legend.position = "none")
+
+figure <- ggarrange(plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9,
+                    plot10, plot11, plot12,
+                    labels = c("A", "B", "C", "A", "B", "C", "A", "B", "C", "A", "B", "C"),
+                    ncol = 4, nrow = 3)
+
+#############################
+
+#Matrice di correlazione di Spearman
+ggcorr(categorical_data, 
+       method = c("pairwise", "spearman"),
+       nbreaks = 6,
+       label = TRUE,
+       label_size = 3,
+       color = "grey50")
 
 # Creiamo un dataframe vuoto per salvare i risultati
 results <- data.frame()

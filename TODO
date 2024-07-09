@@ -19,3 +19,13 @@ Bias: ci sarebbe anche DRNKWK1 è il n° dei drink consumati alla settimana calc
 N.B. Per ogni variabile capire se sono categoriche/numeriche/ordinali --> così da assegnare corrispettivo test.
 N.B. Prima di tabella di contingenza fare TEST DI SHAPIRO  --> fitrare colonna "0" per cui non abbiamo valori rilevanti
 N.B. Tabella di contingenza fra Diabete/Non Diabete e tutto il resto (magari income, sesso etc) --> è un test parametrico. Capire su cosa fare ipotesi nulla.
+
+###################################################
+
+Nel paper:
+- togliere grafico distribuzione diabete perchè basta la tabella
+- aggiungere grafici EDA
+- vedere se grafico di HeartDisease, Fruit etc. è meglio farlo come scritto nel codice di EDA
+- ridurre dim. matrice corr. ordinale
+- ridurre dim. matrice corr. numerica
+- vedere se vogliamo cambiare i qq-plot

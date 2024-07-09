@@ -9,16 +9,20 @@ if (!require(ggplot2)) {
 }
 
 # installa il pacchetto se non è già installato
-if (!require(ggplot2)) {
+if (!require(gmodels)) {
   install.packages('gmodels')
 }
 
+# installa il pacchetto se non è già installato
+if (!require(tidyr)) {
+  install.packages('tidyr')
+}
 
 library(haven)
 library(foreign)
 library(ggplot2)
 library(gmodels)
-
+library(tidyr)
 
 # Carica i dati "diabetes_dataset.csv"
 data <- read.csv('../data/diabetes_dataset_processed.csv', header = TRUE, sep = ",")
@@ -88,14 +92,18 @@ basic_eda <- function(x, name){
   ggplot(data, aes(x = x)) + geom_bar() +
   labs(title = paste("Distribuzione di", name, sep = " "),
       x = name,
-      y = "Frequenza")
- 
-}
+      y = "Frequency")
 
-combined_eda <- function(x, y){
-  CrossTable(x=x[Diabetes == 1], y=y[Diabetes == 1])
-  CrossTable(x=x[Diabetes == 2], y=y[Diabetes == 2])
-  CrossTable(x=x[Diabetes == 3], y=y[Diabetes == 3])
+  # Plot distribution of x with respect to Diabetes groups
+  ggplot(data, aes(x = factor(x), fill = factor(Diabetes))) + 
+    geom_bar(position = "dodge") +
+    scale_fill_manual(values = c("1" = "blue", "2" = "red", "3" = "green"), 
+                      labels = c("1" = "Yes", "2" = "No", "3" = "Pre-Diabetes")) +
+    labs(title = paste("Distribution of", name, "by Diabetes Status"),
+         x = name,
+         y = "Frequency",
+         fill = "Diabetes Status") +
+    theme_minimal()
 }
 
 combined_graph <- function(x, y){
@@ -107,9 +115,18 @@ combined_graph <- function(x, y){
                             names_to = "Condition", 
                             values_to = "Value")
   
+  # filtrare nomi per mettere cose giuste
   # Convert 'Value' to a factor for better plotting
-  data_long$Value <- factor(data_long$Value, levels = c("0", "1", "2"),
-                            labels = c("Don't know/Not sure/Refused/Blank", "Yes", "No"))
+  if ((x == 'Smoker') | (y == 'Smoker')){
+    data_long$Value <- factor(data_long$Value, levels = c("0", "1", "2", "3", "4"),
+                              labels = c("Don't know/Not sure/Refused/Blank", "Everyday Smoker", "Someday Smoker", "Former Smoker", "Never"))
+  } else if ((x == 'Age') | (y =='Age')){
+    data_long$Value <- factor(data_long$Value, levels = c("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"),
+                              labels = c("Don't know/Not sure/Refused/Blank", "Male - [18 - 24]", "Female - [25 - 29]", "[30 - 34]", "[35 - 39]", "[40 - 44]", "[45 - 49]", "[50 - 54]", "[55 - 59]", "[60 - 64]", "[65 - 69]", "[70 - 74]", "[75 - 79]", "80+"))
+  }else{
+    data_long$Value <- factor(data_long$Value, levels = c("0", "1", "2"),
+                              labels = c("Don't know/Not sure/Refused/Blank", "Yes", "No"))
+  }
   
   # Define a named vector with new labels for Diabetes
   diabetes_labels <- setNames(c("Don't know/Not sure/Refused/Blank", " With Diabetes", "Without Diabetes", "Pre-Diabetes"), c("0", "1", "2", "3"))

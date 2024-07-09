@@ -283,6 +283,15 @@ head(new_data) # Visualizza le prime righe del dataframe modificato
 ######Aggiustiamo la colonna HEAVYDRINKER
 new_data <- new_data %>%
   mutate(HeavyDrinker = ifelse(HeavyDrinker %in% c(0, 9), 0, HeavyDrinker))
+#1 in 3
+new_data <- new_data %>%
+  mutate(HeavyDrinker = ifelse(HeavyDrinker %in% c(1), 3, HeavyDrinker))
+#2 in 1
+new_data <- new_data %>%
+  mutate(HeavyDrinker = ifelse(HeavyDrinker %in% c(2), 1, HeavyDrinker))
+#3 in 2
+new_data <- new_data %>%
+  mutate(HeavyDrinker = ifelse(HeavyDrinker %in% c(3), 2, HeavyDrinker))
 table(new_data$HeavyDrinker) # Per vedere la distribuzione dei valori nella colonna Diabetes
 head(new_data) # Visualizza le prime righe del dataframe modificato
 

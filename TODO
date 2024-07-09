@@ -24,7 +24,7 @@ N.B. Tabella di contingenza fra Diabete/Non Diabete e tutto il resto (magari inc
 
 Nel paper:
 - togliere grafico distribuzione diabete perchè basta la tabella
-- aggiungere grafici EDA
+- aggiungere grafici EDA(Interessanti: HighBloodPressure, ToldHighColesterol, BMI, HeartDisease, Stroke, PhysicalActivity, GeneralHealth(banale), WalkingDifficulty, Age)
 - vedere se grafico di HeartDisease, Fruit etc. è meglio farlo come scritto nel codice di EDA
 - ridurre dim. matrice corr. ordinale
 - ridurre dim. matrice corr. numerica

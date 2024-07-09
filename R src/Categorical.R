@@ -255,6 +255,36 @@ figure <- ggarrange(plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot
                     labels = c("A", "B", "C", "A", "B", "C", "A", "B", "C", "A", "B", "C"),
                     ncol = 4, nrow = 3)
 
+# Combine plots into a grid arrangement with a common legend
+figure1 <- ggarrange(plot1, plot2, plot3, plot4,
+                     ncol = 2, nrow = 2, common.legend = TRUE, legend = "bottom")
+
+figure2 <- ggarrange(plot5, plot6, plot7, plot8,
+                     ncol = 2, nrow = 2, common.legend = TRUE, legend = "bottom")
+
+figure3 <- ggarrange(plot9, plot10, plot11, plot12,
+                     ncol = 2, nrow = 2, common.legend = TRUE, legend = "bottom")
+
+#creo figura solo con "HeartDisease", "Fruit", "Stroke", "Sex" che risultano le più rilvanti 
+figureRelevant <- ggarrange(plot3, plot6, plot4, plot12,
+                            ncol = 2, nrow = 2, common.legend = TRUE, legend = "bottom")
+
+
+
+# #provo a mettere 6 plot in due figure diverse : va diminuito il font del titolo in caso e vedere se leggibile
+# figure4 <- ggarrange(plot1, plot2, plot3, plot4, plot5, plot6,
+#                      ncol = 3, nrow = 2, common.legend = TRUE, legend = "bottom")
+
+# figure5 <- ggarrange(plot7, plot8, plot9, plot10, plot11, plot12,
+#                       ncol = 3, nrow = 2, common.legend = TRUE, legend = "bottom")
+
+
+# Salva le figure con legenda comune
+#ggsave("./results/categorical_plots1.png", figure1, width = 8, height = 6, dpi = 72)
+#ggsave("./results/categorical_plots2.png", figure2, width = 8, height = 6, dpi = 72)
+#ggsave("./results/categorical_plots3.png", figure3, width = 8, height = 6, dpi = 72)
+#ggsave("./results/categorical_plots_relevant.png", figureRelevant, width = 8, height = 6, dpi = 72)
+
 #############################
 #colnames(categorical_data) <- c("Diabetes", "HighBloodPressure", "ToldHighColesterol",
 #                                "HeartDisease", "Stroke", "PhysicalActivity", "Fruit",
@@ -285,7 +315,7 @@ categorical_data = categorical_data[, c("Diabetes", "HighBloodPressure", "ToldHi
                                       "HeartDisease", "Stroke", "PhysicalActivity", "Fruit",
                                       "Vegetables", "HeavyDrinker", "HealthPlan", "MedicalCost",
                                       "WalkingDifficulty", "Sex")]
-# FILTRARE VALORI NULLI PERCHE' MAGARI CAMBIANO I RISULTATI
+
 # Creiamo un dataframe vuoto per salvare i risultati
 results <- data.frame()
 

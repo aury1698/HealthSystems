@@ -97,10 +97,18 @@ head(new_data) # Visualizza le prime righe del dataframe modificato
 #Mappa 9 in 0
 new_data <- new_data %>%
   mutate(HighBloodPressure = ifelse(HighBloodPressure %in% c(0, 9), 0, HighBloodPressure))
+#Mappa 1 in 3
+new_data <- new_data %>%
+  mutate(HighBloodPressure = ifelse(HighBloodPressure %in% c(1), 3, HighBloodPressure))
+#Mappa 2 in 1
+new_data <- new_data %>%
+  mutate(HighBloodPressure = ifelse(HighBloodPressure %in% c(2), 1, HighBloodPressure))
+#Mappa 3 in 2
+new_data <- new_data %>%
+  mutate(HighBloodPressure = ifelse(HighBloodPressure %in% c(3), 2, HighBloodPressure))
 # Verifica i cambiamenti
 table(new_data$HighBloodPressure) # Per vedere la distribuzione dei valori nella colonna Diabetes
 head(new_data) # Visualizza le prime righe del dataframe modificato
-
 
 ####Aggiustiamo la colonna TOLDHIGHCOLERESTEROL
 #Mappa 9 in 7
@@ -631,8 +639,8 @@ write.csv(new_data, file = "../data/diabetes_dataset_processed.csv")
 # HighBloodPressure 
 # Adults who have been told they have high blood pressure by a doctor, nurse, or other health professional
 # 0 - Dont't know/Not sure/Refused/Blank
-# 1 No
-# 2 Yes
+# 1 Yes
+# 2 No
 
 # ToldHighColesterol
 # Have you ever been told by a doctor, nurse or other health professional that your cholesterol is high

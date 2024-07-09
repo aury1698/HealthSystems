@@ -1,7 +1,3 @@
-library(haven)
-library(foreign)
-library(ggplot2)
-
 # installa il pacchetto se non è già installato
 if (!require(foreign)) {
   install.packages("foreign")
@@ -11,6 +7,18 @@ if (!require(foreign)) {
 if (!require(ggplot2)) {
   install.packages("ggplot2")
 }
+
+# installa il pacchetto se non è già installato
+if (!require(ggplot2)) {
+  install.packages('gmodels')
+}
+
+
+library(haven)
+library(foreign)
+library(ggplot2)
+library(gmodels)
+
 
 # Carica i dati "diabetes_dataset.csv"
 data <- read.csv('../data/diabetes_dataset_processed.csv', header = TRUE, sep = ",")
@@ -30,7 +38,6 @@ sum(duplicated(data)) # Non ci sono valori duplicati
 # EDA: Diabetes
 # Ever told) (you had) diabetes? (If  ́Yes ́ and respondent is female, ask  ́Was this only when your 
 # were pregnant? ́. If Respondent says pre-diabetes or borderline diabetes, use response code 4
-categorical = columns[2]
 # 0 - Dont't know/Not sure/Refused/Blank
 # 1 - Yes / Yes but during pregnancy
 # 2 - No
@@ -40,6 +47,9 @@ median(Diabetes)
 var(Diabetes)
 summary(Diabetes)
 
+table(Diabetes)
+prop.table(table(Diabetes))
+
 boxplot(Diabetes, main = "Diabetes", xlab = "Diabetes")
 
 ggplot(data, aes(x = Diabetes)) + geom_bar() +
@@ -47,45 +57,151 @@ ggplot(data, aes(x = Diabetes)) + geom_bar() +
        x = "Diabetes",
        y = "Frequenza")
 
+basic_eda <- function(x, name){
+  print("Mean")
+  print(mean(x))
+  print("Median")
+  print(median(x))
+  print("Var")
+  print(var(x))
+  print("Summary")
+  print(summary(x))
+  
+  print("Values")
+  print(table(x))
+  print(prop.table(table(x)))
+  
+  print("Values with Diabetes")
+  print(table(x[Diabetes == 1]))
+  print(prop.table(table(x[Diabetes == 1])))
+    
+  print("Values without Diabetes")
+  print(table(x[Diabetes == 2]))
+  print(prop.table(table(x[Diabetes == 2])))
+  
+  print("Values with Borderline Diabetes")
+  print(table(x[Diabetes == 3]))
+  print(prop.table(table(x[Diabetes == 3])))
+  
+  CrossTable(x=x, y=Diabetes)
+  
+  ggplot(data, aes(x = x)) + geom_bar() +
+  labs(title = paste("Distribuzione di", name, sep = " "),
+      x = name,
+      y = "Frequenza")
+ 
+}
+
+combined_eda <- function(x, y){
+  CrossTable(x=x[Diabetes == 1], y=y[Diabetes == 1])
+  CrossTable(x=x[Diabetes == 2], y=y[Diabetes == 2])
+  CrossTable(x=x[Diabetes == 3], y=y[Diabetes == 3])
+}
+
+combined_graph <- function(x, y){
+  # tocca vedere se si può fare, alle brutte sta qua e si copia
+  # Assuming 'data' is your dataframe
+  # First, reshape the data to a long format for both HighBloodPressure and ToldHighColesterol
+  data_long <- pivot_longer(data, 
+                            cols = c(x, y), 
+                            names_to = "Condition", 
+                            values_to = "Value")
+  
+  # Convert 'Value' to a factor for better plotting
+  data_long$Value <- factor(data_long$Value, levels = c("0", "1", "2"),
+                            labels = c("Don't know/Not sure/Refused/Blank", "Yes", "No"))
+  
+  # Define a named vector with new labels for Diabetes
+  diabetes_labels <- setNames(c("Don't know/Not sure/Refused/Blank", " With Diabetes", "Without Diabetes", "Pre-Diabetes"), c("0", "1", "2", "3"))
+  
+  # Assuming 'data' is your dataframe and the rest of your code is unchanged
+  # Modify the facet_wrap call to use the new diabetes labels
+  ggplot(data_long, aes(x = Condition, fill = Value)) +
+    geom_bar(position = "dodge") +
+    facet_wrap(~ Diabetes, labeller = labeller(Diabetes = diabetes_labels)) +
+    labs(title = paste(x, "and", y, "distribution divided by Diabetes", sep = " "),
+         x = "",
+         y = "Frequency",
+         fill = "Answers") +
+    theme_minimal()
+}
 
 # EDA: HighBloodPressure
 # Adults who have been told they have high blood pressure by a doctor, nurse, or other health professional
-categorical <- c(categorical, columns[3])
-# 0 - Dont't know/Not sure/Refused/Blank
-# 1 No
-# 2 Yes
-mean(HighBloodPressure)
-median(HighBloodPressure)
-var(HighBloodPressure)
-summary(HighBloodPressure)
-
-boxplot(HighBloodPressure, main = "HighBloodPressure", xlab = "HighBloodPressure")
-
-ggplot(data, aes(x = HighBloodPressure)) + geom_bar() +
-  labs(title = "Distribuzione di HighBloodPressure",
-       x = "HighBloodPressure",
-       y = "Frequenza")
-
-# EDA: ToldHighColesterol
-# Have you ever been told by a doctor, nurse or other health professional that your cholesterol is high
-categorical <- c(categorical, columns[4])
 # 0 - Dont't know/Not sure/Refused/Blank
 # 1 Yes
 # 2 No
-mean(ToldHighColesterol)
-median(ToldHighColesterol)
-var(ToldHighColesterol)
 
-boxplot(ToldHighColesterol, main = "ToldHighColesterol", xlab = "ToldHighColesterol")
+basic_eda(HighBloodPressure, 'HighBloodPressure')
+# mean(HighBloodPressure)
+# median(HighBloodPressure)
+# var(HighBloodPressure)
+# summary(HighBloodPressure)
 
-ggplot(data, aes(x = ToldHighColesterol)) + geom_bar() +
-  labs(title = "Distribuzione di ToldHighColesterol",
-       x = "ToldHighColesterol",
-       y = "Frequenza")
+# table(HighBloodPressure)
+# prop.table(table(HighBloodPressure))
+
+# table(HighBloodPressure[Diabetes == 1])
+# prop.table(table(HighBloodPressure[Diabetes == 1]))
+# # Sembra che avere diabete e pressione alta siano neg. correlate
+
+# table(HighBloodPressure[Diabetes == 2])
+# prop.table(table(HighBloodPressure[Diabetes == 2]))
+# # mentre non avere diabete e alta pressione correlate
+
+# table(HighBloodPressure[Diabetes == 3])
+# prop.table(table(HighBloodPressure[Diabetes == 3]))
+# #qua siamo più vicini ad una distribuzione uguale
+
+# CrossTable(x=HighBloodPressure, y=Diabetes)
+
+# boxplot(HighBloodPressure, main = "HighBloodPressure", xlab = "HighBloodPressure")
+
+# ggplot(data, aes(x = HighBloodPressure)) + geom_bar() +
+#   labs(title = "Distribuzione di HighBloodPressure",
+#        x = "HighBloodPressure",
+#        y = "Frequenza")
+
+
+# EDA: ToldHighColesterol
+# Have you ever been told by a doctor, nurse or other health professional that your cholesterol is high
+# 0 - Dont't know/Not sure/Refused/Blank
+# 1 Yes
+# 2 No
+basic_eda(ToldHighColesterol, 'ToldHighColesterol')
+combined_eda(HighBloodPressure, ToldHighColesterol)
+combined_graph('HighBloodPressure', 'ToldHighColesterol')
+
+
+# mean(ToldHighColesterol)
+# median(ToldHighColesterol)
+# var(ToldHighColesterol)
+
+# table(ToldHighColesterol)
+# prop.table(table(ToldHighColesterol))
+
+# table(ToldHighColesterol[Diabetes == 1])
+# prop.table(table(ToldHighColesterol[Diabetes == 1]))
+# # avere diabete e colesterolo alto sembrano legate
+
+# table(ToldHighColesterol[Diabetes == 2])
+# prop.table(table(ToldHighColesterol[Diabetes == 2]))
+# # mentre non avere diabete e non avere colesterolo sembrano andare insieme
+# # alto numero di valori nulli per la struttura del questionario
+
+# table(ToldHighColesterol[Diabetes == 3])
+# prop.table(table(ToldHighColesterol[Diabetes == 3]))
+# # simile ad avere il colesterolo
+
+# boxplot(ToldHighColesterol, main = "ToldHighColesterol", xlab = "ToldHighColesterol")
+
+# ggplot(data, aes(x = ToldHighColesterol)) + geom_bar() +
+#   labs(title = "Distribuzione di ToldHighColesterol",
+#        x = "ToldHighColesterol",
+#        y = "Frequenza")
 
 # EDA: CholesterolCheck
 # About how long has it been since you last had your cholesterol checked
-ordinal = columns[5]
 # 0 - Dont't know/Not sure/Refused/Blank
 # 1 - Never
 # 2 - Less than a year
@@ -94,279 +210,280 @@ ordinal = columns[5]
 # 5 - Less than four years
 # 6 - Less than five years
 # 7 - Five years or more
-mean(CholesterolCheck)
-median(CholesterolCheck)
-var(CholesterolCheck)
+basic_eda(CholesterolCheck, 'CholesterolCheck')
+# mean(CholesterolCheck)
+# median(CholesterolCheck)
+# var(CholesterolCheck)
 
-boxplot(CholesterolCheck, main = "CholesterolCheck", xlab = "CholesterolCheck")
+# boxplot(CholesterolCheck, main = "CholesterolCheck", xlab = "CholesterolCheck")
 
-ggplot(data, aes(x = CholesterolCheck)) + geom_bar() +
-  labs(title = "Distribuzione di CholesterolCheck",
-       x = "CholesterolCheck",
-       y = "Frequenza")
+# ggplot(data, aes(x = CholesterolCheck)) + geom_bar() +
+#   labs(title = "Distribuzione di CholesterolCheck",
+#        x = "CholesterolCheck",
+#        y = "Frequenza")
 
 # EDA: BMI
 # Body Mass Index
-ordinal <- c(ordinal, columns[6])
 # 0 - Dont't know/Not sure/Refused/Blank
 # 1 - Underweight
 # 2 - Normal weight
 # 3 - Overweight
 # 4 - Obese
-mean(BMI)
-median(BMI)
-var(BMI)
+basic_eda(BMI, 'BMI')
+# mean(BMI)
+# median(BMI)
+# var(BMI)
 
-boxplot(BMI, main = "BMI", xlab = "BMI")  
+# boxplot(BMI, main = "BMI", xlab = "BMI")  
 
-ggplot(data, aes(x = BMI)) + geom_bar() +
-  labs(title = "Distribuzione di BMI",
-       x = "BMI",
-       y = "Frequenza")
+# ggplot(data, aes(x = BMI)) + geom_bar() +
+#   labs(title = "Distribuzione di BMI",
+#        x = "BMI",
+#        y = "Frequenza")
 
 # EDA: Smoker
 # Four-level smoker status: Everyday smoker, Someday smoker, Former smoker, Non-smoker
-ordinal <- c(ordinal, columns[7])
 # 0 - Dont't know/Not sure/Refused/Blank
 # 1 - Everyday Smoker
 # 2 - Someday Smoker
 # 3 - Former Smoker
 # 4 - Never
-mean(Smoker)
-median(Smoker)
-var(Smoker)
+basic_eda(Smoker, 'Smoker')
+# mean(Smoker)
+# median(Smoker)
+# var(Smoker)
 
-boxplot(Smoker, main = "Smoker", xlab = "Smoker")
+# boxplot(Smoker, main = "Smoker", xlab = "Smoker")
 
-ggplot(data, aes(x = Smoker)) + geom_bar() +
-  labs(title = "Distribuzione di Smoker",
-       x = "Smoker",
-       y = "Frequenza")
+# ggplot(data, aes(x = Smoker)) + geom_bar() +
+#   labs(title = "Distribuzione di Smoker",
+#        x = "Smoker",
+#        y = "Frequenza")
 
 # EDA: HeartDisease
 # Respondents that have ever reported having coronary heart disease (CHD) or myocardial infarction (MI)
-categorical <- c(categorical, columns[8])
 # 0 - Dont't know/Not sure/Refused/Blank
 # 1 - Yes
 # 2 - No
-mean(HeartDisease)
-median(HeartDisease)
-var(HeartDisease)
+basic_eda(HeartDisease, 'HeartDisease')
+# mean(HeartDisease)
+# median(HeartDisease)
+# var(HeartDisease)
 
-boxplot(HeartDisease, main = "HeartDisease", xlab = "HeartDisease")
+# boxplot(HeartDisease, main = "HeartDisease", xlab = "HeartDisease")
 
-ggplot(data, aes(x = HeartDisease)) + geom_bar() +
-  labs(title = "Distribuzione di HeartDisease",
-       x = "HeartDisease",
-       y = "Frequenza")
+# ggplot(data, aes(x = HeartDisease)) + geom_bar() +
+#   labs(title = "Distribuzione di HeartDisease",
+#        x = "HeartDisease",
+#        y = "Frequenza")
 
 # EDA: Stroke
 # Ever told you had a stroke.
 # 0 - Dont't know/Not sure/Refused/Blank
 # 1 - Yes
 # 2 - No
-categorical <- c(categorical, columns[9])
-mean(Stroke)
-median(Stroke)
-var(Stroke)
+basic_eda(Stroke, 'Stroke')
+combined_graph('Stroke', 'HeartDisease')
+# mean(Stroke)
+# median(Stroke)
+# var(Stroke)
 
-boxplot(Stroke, main = "Stroke", xlab = "Stroke")
+# boxplot(Stroke, main = "Stroke", xlab = "Stroke")
 
-ggplot(data, aes(x = Stroke)) + geom_bar() +
-  labs(title = "Distribuzione di Stroke",
-       x = "Stroke",
-       y = "Frequenza")
+# ggplot(data, aes(x = Stroke)) + geom_bar() +
+#   labs(title = "Distribuzione di Stroke",
+#        x = "Stroke",
+#        y = "Frequenza")
 
 # EDA: PhysicalActivity
 # Adults who reported doing physical activity or exercise during the past 30 days other than their regular job
-categorical <- c(categorical, columns[10])
 # 0 - Dont't know/Not sure/Refused/Blank
 # 1 - Yes
 # 2 - No
-mean(PhysicalActivity)
-median(PhysicalActivity)
-var(PhysicalActivity)
+basic_eda(PhysicalActivity, 'PhysicalActivity')
+# mean(PhysicalActivity)
+# median(PhysicalActivity)
+# var(PhysicalActivity)
 
-boxplot(PhysicalActivity, main = "PhysicalActivity", xlab = "PhysicalActivity")
+# boxplot(PhysicalActivity, main = "PhysicalActivity", xlab = "PhysicalActivity")
 
-ggplot(data, aes(x = PhysicalActivity)) + geom_bar() +
-  labs(title = "Distribuzione di PhysicalActivity",
-       x = "PhysicalActivity",
-       y = "Frequenza")
+# ggplot(data, aes(x = PhysicalActivity)) + geom_bar() +
+#   labs(title = "Distribuzione di PhysicalActivity",
+#        x = "PhysicalActivity",
+#        y = "Frequenza")
 
 # EDA: Fruit
 # Consume Fruit 1 or more times per day
-categorical <- c(categorical, columns[11])
 # 0 - Dont't know/Not sure/Refused/Blank
 # 1 - Yes
 # 2 - No
-mean(Fruit)
-median(Fruit)
-var(Fruit)
+basic_eda(Fruit, 'Fruit')
+# mean(Fruit)
+# median(Fruit)
+# var(Fruit)
 
-boxplot(Fruit, main = "Fruit", xlab = "Fruit")
+# boxplot(Fruit, main = "Fruit", xlab = "Fruit")
 
-ggplot(data, aes(x = Fruit)) + geom_bar() +
-  labs(title = "Distribuzione di Fruit",
-       x = "Fruit",
-       y = "Frequenza")
+# ggplot(data, aes(x = Fruit)) + geom_bar() +
+#   labs(title = "Distribuzione di Fruit",
+#        x = "Fruit",
+#        y = "Frequenza")
 
 # EDA: Vegetables
 # Consume Vegetables 1 or more times per day
-categorical <- c(categorical, columns[12])
 # 0 - Dont't know/Not sure/Refused/Blank
 # 1 - Yes
 # 2 - No
-mean(Vegetables)
-median(Vegetables)
-var(Vegetables)
+basic_eda(Vegetables, 'Vegetables')
+# mean(Vegetables)
+# median(Vegetables)
+# var(Vegetables)
 
-boxplot(Vegetables, main = "Vegetables", xlab = "Vegetables")
+# boxplot(Vegetables, main = "Vegetables", xlab = "Vegetables")
 
-ggplot(data, aes(x = Vegetables)) + geom_bar() +
-  labs(title = "Distribuzione di Vegetables",
-       x = "Vegetables",
-       y = "Frequenza")
+# ggplot(data, aes(x = Vegetables)) + geom_bar() +
+#   labs(title = "Distribuzione di Vegetables",
+#        x = "Vegetables",
+#        y = "Frequenza")
 
 # EDA: HeavyDrinker
 # Heavy drinkers (adult men having more than 14 drinks per week and adult women having more than 7 drinks per week)
-categorical <- c(categorical, columns[13])
 # 0 - Dont't know/Not sure/Refused/Blank
 # 1 - No
 # 2 - Yes
-mean(HeavyDrinker)
-median(HeavyDrinker)
-var(HeavyDrinker)
+basic_eda(HeavyDrinker, 'HeavyDrinker')
+# mean(HeavyDrinker)
+# median(HeavyDrinker)
+# var(HeavyDrinker)
 
-boxplot(HeavyDrinker, main = "HeavyDrinker", xlab = "HeavyDrinker")
+# boxplot(HeavyDrinker, main = "HeavyDrinker", xlab = "HeavyDrinker")
 
-ggplot(data, aes(x = HeavyDrinker)) + geom_bar() +
-  labs(title = "Distribuzione di HeavyDrinker",
-       x = "HeavyDrinker",
-       y = "Frequenza")
+# ggplot(data, aes(x = HeavyDrinker)) + geom_bar() +
+#   labs(title = "Distribuzione di HeavyDrinker",
+#        x = "HeavyDrinker",
+#        y = "Frequenza")
 
 # EDA: HealthPlan
 # Adults who had some form of health insurance
-categorical <- c(categorical, columns[14])
 # 0 - Dont't know/Not sure/Refused/Blank
 # 1 - Yes
 # 2 - No
-mean(HealthPlan)
-median(HealthPlan)
-var(HealthPlan)
+basic_eda(HealthPlan, 'HealthPlan')
+# mean(HealthPlan)
+# median(HealthPlan)
+# var(HealthPlan)
 
-boxplot(HealthPlan, main = "HealthPlan", xlab = "HealthPlan")
+# boxplot(HealthPlan, main = "HealthPlan", xlab = "HealthPlan")
 
-ggplot(data, aes(x = HealthPlan)) + geom_bar() +
-  labs(title = "Distribuzione di HealthPlan",
-       x = "HealthPlan",
-       y = "Frequenza")
+# ggplot(data, aes(x = HealthPlan)) + geom_bar() +
+#   labs(title = "Distribuzione di HealthPlan",
+#        x = "HealthPlan",
+#        y = "Frequenza")
 
 # EDA: MedicalCost
 # Was there a time in the past 12 months when you needed to see a doctor but could not because you could not afford it?
-categorical <- c(categorical, columns[15])
 # 0 - Dont't know/Not sure/Refused/Blank
 # 1 - Yes
 # 2 - No
-mean(MedicalCost)
-median(MedicalCost)
-var(MedicalCost)
+basic_eda(MedicalCost, 'MedicalCost')
+# mean(MedicalCost)
+# median(MedicalCost)
+# var(MedicalCost)
 
-boxplot(MedicalCost, main = "MedicalCost", xlab = "MedicalCost")
+# boxplot(MedicalCost, main = "MedicalCost", xlab = "MedicalCost")
 
-ggplot(data, aes(x = MedicalCost)) + geom_bar() +
-  labs(title = "Distribuzione di MedicalCost",
-       x = "MedicalCost",
-       y = "Frequenza")
+# ggplot(data, aes(x = MedicalCost)) + geom_bar() +
+#   labs(title = "Distribuzione di MedicalCost",
+#        x = "MedicalCost",
+#        y = "Frequenza")
 
 # EDA: GeneralHealth
 # Would you say that in general your health is
-ordinal <- c(ordinal, columns[16])
 # 0 - Dont't know/Not sure/Refused/Blank
 # 1 - Excellent
 # 2 - Very Good
 # 3 - Good
 # 4 - Fair
 # 5 - Poor
-mean(GeneralHealth)
-median(GeneralHealth)
-var(GeneralHealth)
+basic_eda(GeneralHealth, 'GeneralHealth')
+# mean(GeneralHealth)
+# median(GeneralHealth)
+# var(GeneralHealth)
 
-boxplot(GeneralHealth, main = "GeneralHealth", xlab = "GeneralHealth")
+# boxplot(GeneralHealth, main = "GeneralHealth", xlab = "GeneralHealth")
 
-ggplot(data, aes(x = GeneralHealth)) + geom_bar() +
-  labs(title = "Distribuzione di GeneralHealth",
-       x = "GeneralHealth",
-       y = "Frequenza")
+# ggplot(data, aes(x = GeneralHealth)) + geom_bar() +
+#   labs(title = "Distribuzione di GeneralHealth",
+#        x = "GeneralHealth",
+#        y = "Frequenza")
 
 # EDA: MentalHealth
 # Now thinking about your mental health, which includes stress, depression, and problems with emotions, for how many days during the past 30 days was your mental health not good
-numerical = columns[17]
 # 0-30 - Days of not good mental health
 # 31 - Dont't know/Not sure/Refused/Blank
-mean(MentalHealth)
-median(MentalHealth)
-var(MentalHealth)
+basic_eda(MentalHealth, 'MentalHealth')
+# mean(MentalHealth)
+# median(MentalHealth)
+# var(MentalHealth)
 
-boxplot(MentalHealth, main = "MentalHealth", xlab = "MentalHealth")
+# boxplot(MentalHealth, main = "MentalHealth", xlab = "MentalHealth")
 
-ggplot(data, aes(x = MentalHealth)) + geom_bar() +
-  labs(title = "Distribuzione di MentalHealth",
-       x = "MentalHealth",
-       y = "Frequenza")
+# ggplot(data, aes(x = MentalHealth)) + geom_bar() +
+#   labs(title = "Distribuzione di MentalHealth",
+#        x = "MentalHealth",
+#        y = "Frequenza")
 
 # EDA: PhysicalHealth
 # Now thinking about your physical health, which includes physical illness and injury, for how many days during the past 30 days was your physical health not good
-numerical <- c(numerical, columns[18])
 # 0-30 - Days of not good mental health
 # 31 - Dont't know/Not sure/Refused/Blank
-mean(PhysicalHealth)
-median(PhysicalHealth)
-var(PhysicalHealth)
+basic_eda(PhysicalHealth, 'PhysicalHealth')
+# mean(PhysicalHealth)
+# median(PhysicalHealth)
+# var(PhysicalHealth)
 
-boxplot(PhysicalHealth, main = "PhysicalHealth", xlab = "PhysicalHealth")
+# boxplot(PhysicalHealth, main = "PhysicalHealth", xlab = "PhysicalHealth")
 
-ggplot(data, aes(x = PhysicalHealth)) + geom_bar() +
-  labs(title = "Distribuzione di PhysicalHealth",
-       x = "PhysicalHealth",
-       y = "Frequenza")
+# ggplot(data, aes(x = PhysicalHealth)) + geom_bar() +
+#   labs(title = "Distribuzione di PhysicalHealth",
+#        x = "PhysicalHealth",
+#        y = "Frequenza")
 
 # EDA: WalkingDifficulty
 # Do you have serious difficulty walking or climbing stairs?
-categorical <- c(categorical, columns[19])
 # 0 - Dont't know/Not sure/Refused/Blank
 # 1 - Yes
 # 2 - No
-mean(WalkingDifficulty)
-median(WalkingDifficulty)
-var(WalkingDifficulty)
+basic_eda(WalkingDifficulty, 'WalkingDifficulty')
+# mean(WalkingDifficulty)
+# median(WalkingDifficulty)
+# var(WalkingDifficulty)
 
-boxplot(WalkingDifficulty, main = "WalkingDifficulty", xlab = "WalkingDifficulty")
+# boxplot(WalkingDifficulty, main = "WalkingDifficulty", xlab = "WalkingDifficulty")
 
-ggplot(data, aes(x = WalkingDifficulty)) + geom_bar() +
-  labs(title = "Distribuzione di WalkingDifficulty",
-       x = "WalkingDifficulty",
-       y = "Frequenza")
+# ggplot(data, aes(x = WalkingDifficulty)) + geom_bar() +
+#   labs(title = "Distribuzione di WalkingDifficulty",
+#        x = "WalkingDifficulty",
+#        y = "Frequenza")
 
 # EDA: Sex
 # Sex of Respondent
-categorical <- c(categorical, columns[20])
 # 1 - Male
 # 2 - Female
-mean(Sex)
-median(Sex)
-var(Sex)
+basic_eda(Sex, 'Sex')
+# mean(Sex)
+# median(Sex)
+# var(Sex)
 
-boxplot(Sex, main = "Sex", xlab = "Sex")
+# boxplot(Sex, main = "Sex", xlab = "Sex")
 
-ggplot(data, aes(x = Sex)) + geom_bar() +
-  labs(title = "Distribuzione di Sex",
-       x = "Sex",
-       y = "Frequenza")
+# ggplot(data, aes(x = Sex)) + geom_bar() +
+#   labs(title = "Distribuzione di Sex",
+#        x = "Sex",
+#        y = "Frequenza")
 
 # EDA: Age
 # Fourteen-level age category
-ordinal <- c(ordinal, columns[21])
 # 0 - Dont't know/Not sure/Refused/Blank
 # 1 - 18 / 24
 # 2 - 25 / 29
@@ -381,39 +498,39 @@ ordinal <- c(ordinal, columns[21])
 # 11 - 70 / 74
 # 12 - 75 / 79
 # 13 - 80+
-mean(Age)
-median(Age)
-var(Age)
+basic_eda(Age, 'Age')
+# mean(Age)
+# median(Age)
+# var(Age)
 
-boxplot(Age, main = "Age", xlab = "Age")
+# boxplot(Age, main = "Age", xlab = "Age")
 
-ggplot(data, aes(x = Age)) + geom_bar() +
-  labs(title = "Distribuzione di Age",
-       x = "Age",
-       y = "Frequenza")
+# ggplot(data, aes(x = Age)) + geom_bar() +
+#   labs(title = "Distribuzione di Age",
+#        x = "Age",
+#        y = "Frequenza")
 
 # EDA: Education
 # What is the highest grade or year of school you completed
-ordinal <- c(ordinal, columns[22])
 # 0 - Dont't know/Not sure/Refused/Blank
 # 1 - Non high school graduate
 # 2 - High school graduate
 # 3 - Attended college
 # 4 - College degree
-mean(Education)
-median(Education)
-var(Education)
+basic_eda(Education, 'Education')
+# mean(Education)
+# median(Education)
+# var(Education)
 
-boxplot(Education, main = "Education", xlab = "Education")
+# boxplot(Education, main = "Education", xlab = "Education")
 
-ggplot(data, aes(x = Education)) + geom_bar() +
-  labs(title = "Distribuzione di Education",
-       x = "Education",
-       y = "Frequenza")
+# ggplot(data, aes(x = Education)) + geom_bar() +
+#   labs(title = "Distribuzione di Education",
+#        x = "Education",
+#        y = "Frequenza")
 
 # EDA: Income
 # Is your annual household income from all sources
-ordinal <- c(ordinal, columns[23])
 # 0 - Dont't know/Not sure/Refused/Blank
 # 1 - Less than 15k
 # 2 - 15k< <25k
@@ -422,74 +539,70 @@ ordinal <- c(ordinal, columns[23])
 # 5 - 50k< <100k
 # 6 - 100k< <200k
 # 7 - 200k+
-mean(Income)
-median(Income)
-var(Income)
+basic_eda(Income, 'Income')
+# mean(Income)
+# median(Income)
+# var(Income)
 
-boxplot(Income, main = "Income", xlab = "Income")
+# boxplot(Income, main = "Income", xlab = "Income")
 
-ggplot(data, aes(x = Income)) + geom_bar() +
-  labs(title = "Distribuzione di Income",
-       x = "Income",
-       y = "Frequenza")
+# ggplot(data, aes(x = Income)) + geom_bar() +
+#   labs(title = "Distribuzione di Income",
+#        x = "Income",
+#        y = "Frequenza")
 
 #EDA: CheckUp 
 #About how long has it been since you last visited a doctor for a routine checkup?
-ordinal <- c(ordinal, columns[24])
 # 0 - Dont't know/Not sure/Refused/Blank
 # 1 - Less than 1 year
 # 2 - 1-2 years
 # 3 - 2-5 years
 # 4 - 5+ years
 # 5 - Never
-mean(Checkup)
-median(Checkup)
-var(Checkup)
+basic_eda(Checkup, 'Checkup')
+# mean(Checkup)
+# median(Checkup)
+# var(Checkup)
 
-boxplot(Checkup, main = "CheckUp", xlab = "CheckUp")
+# boxplot(Checkup, main = "CheckUp", xlab = "CheckUp")
 
-ggplot(data, aes(x = Checkup)) + geom_bar() +
-  labs(title = "Distribuzione di CheckUp",
-       x = "CheckUp",
-       y = "Frequenza")
+# ggplot(data, aes(x = Checkup)) + geom_bar() +
+#   labs(title = "Distribuzione di CheckUp",
+#        x = "CheckUp",
+#        y = "Frequenza")
 
 
 #EDA: BloodSugar
 #About how often do you check your blood for glucose or sugar? 
-numerical <- c(numerical, columns[25])
 # 42069 - Not sure/Refused/Blank
 # Times per day, per week, per month, per year
-mean(BloodSugar)
-median(BloodSugar)
-var(BloodSugar)
+basic_eda(BloodSugar, 'BloodSugar')
+# mean(BloodSugar)
+# median(BloodSugar)
+# var(BloodSugar)
 
-boxplot(BloodSugar, main = "BloodSugar", xlab = "BloodSugar")
+# boxplot(BloodSugar, main = "BloodSugar", xlab = "BloodSugar")
 
-ggplot(data, aes(x = BloodSugar)) + geom_bar() +
-  labs(title = "Distribuzione di BloodSugar",
-       x = "BloodSugar",
-       y = "Frequenza")
+# ggplot(data, aes(x = BloodSugar)) + geom_bar() +
+#   labs(title = "Distribuzione di BloodSugar",
+#        x = "BloodSugar",
+#        y = "Frequenza")
 
 #EDA: FeetCheck
 #Including times when checked by a family member or friend, about how often do you check your feet for sores or irritations?
-numerical <- c(numerical, columns[26])
 # 42069 - Not sure/Refused/Blank
 # Times per day, per week, per month, per year
-mean(FeetCheck)
-median(FeetCheck)
-var(FeetCheck)
+basic_eda(FeetCheck, 'FeetCheck')
+# mean(FeetCheck)
+# median(FeetCheck)
+# var(FeetCheck)
 
-boxplot(FeetCheck, main = "FeetCheck", xlab = "FeetCheck")
+# boxplot(FeetCheck, main = "FeetCheck", xlab = "FeetCheck")
 
-ggplot(data, aes(x = FeetCheck)) + geom_bar() +
-  labs(title = "Distribuzione di FeetCheck",
-       x = "FeetCheck",
-       y = "Frequenza")
-
-categorical
-ordinal
-numerical
-
+# ggplot(data, aes(x = FeetCheck)) + geom_bar() +
+#   labs(title = "Distribuzione di FeetCheck",
+#        x = "FeetCheck",
+#        y = "Frequenza")
 
 # #EDA: Correlazione tra variabili numeriche (da capire se rilevante)
 # correlation_matrix <- cor(data, use = "complete.obs")
